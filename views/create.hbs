@@ -1,0 +1,27 @@
+<br>
+<h4>Create User</h4>
+<a class="btn btn-primary" href="/">All Users</a>
+<br>
+<br>
+<form action="/users/create" method="POST">
+  <div class="form-group mb-2">
+    <label for="name">Name</label>
+    <input type="text" name="name" class="form-control" id="name">
+  </div>
+  <div class="form-group mb-2">
+    <label for="username">UserName</label>
+    <input type="text" name="username" class="form-control" id="username">
+  </div>
+  <div class="form-group mb-2">
+    <label for="password">Password</label>
+    <input type="password" name="password" class="form-control" id="password" placeholder="password">
+  </div>
+  <button type="submit" class="btn btn-primary mb-2">Create User</button>
+  {{!-- <%   if(typeof errors != "undefined" && errors) { %>
+            <% errors.forEach(function(err) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= err.msg %>
+              </div>
+              <% }); %> 
+        <% }    %> --}}
+</form>

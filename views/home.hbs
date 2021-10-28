@@ -1,0 +1,28 @@
+<br>
+<h4> All Users </h4>
+<a class="btn btn-primary" href="/users/create">Craete User</a>
+<br>
+<br>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Name</th>
+      <th scope="col">UserName</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each data}}
+    <tr>
+      <th scope="row">{{this.id}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.username}}</td>
+      <td>
+        <a class="btn btn-success" href="/users/edit/{{this.id}}">Edit</a>
+        <a class="btn btn-primary" href="/users/delete/{{this.id}}">Delete</a>
+      </td>
+    </tr>
+   {{/each}}
+  </tbody>
+</table>
