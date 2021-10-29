@@ -1,0 +1,68 @@
+<br>
+<h4>Edit Product</h4>
+<a class="btn btn-primary" href="/products">All Products</a>
+<br>
+<br>
+<form action="/products/update/{{product.id}}" method="POST" runat="server">
+  <div class="form-group mb-2">
+    <label for="name">Product Name</label>
+    <input type="text" name="name" value="{{product.name}}" class="form-control" id="name">
+  </div>
+  <div class="form-group mb-2">
+    <label for="pnumber">Product Number</label>
+    <input type="text" name="pnumber" value="{{product.pnumber}}" class="form-control" id="pnumber">
+  </div>
+   <div class="form-group mb-2">
+    <label for="description">Description</label>
+    <input type="text" name="description" value="{{product.description}}" class="form-control" id="description">
+  </div>
+   <div class="form-group mb-2">
+    <label for="image">Product Image</label>
+    <input type="file" name="image" value="{{product.image}}" class="form-control" id="image">
+    <img id="blah" src="#" alt="your image" />
+    <br>
+    <a class="btn btn-primary" href="#" onclick="myFunction()">Remove</a>
+    <script>
+      image.onchange = evt => {
+      const [file] = image.files
+      if (file) {
+      blah.src = URL.createObjectURL(file)
+  }
+  
+}
+function myFunction() {
+  var myobj = document.getElementById("blah");
+  myobj.remove();
+}
+    </script>
+  </div>
+    <div class="form-group mb-2">
+  <label for="category">Choose a Category:</label>
+  <select name="category" id="category">
+    <option value="{{product.category}}">Shoe</option>
+    <option value="{{product.category}}">Food</option>
+    <option value="{{product.category}}">Clothes</option>
+    <option value="{{product.category}}">Other Category</option>
+  </select>
+  </div>
+   <div class="form-group mb-2">
+    <label for="price">Price</label>
+    <input type="text" name="price" value="{{product.price}}" class="form-control" id="price">
+  </div>
+  <div class="form-group mb-2">
+    <label for="start_date">Start Date</label>
+    <input type="date" name="start_date" value="{{product.start_date}}" class="form-control" id="start_date">
+  </div>
+   <div class="form-group mb-2">
+    <label for="end_date">End Date</label>
+    <input type="date" name="end_date" value="{{product.end_date}}" class="form-control" id="end_date">
+  </div>
+   <div class="form-group mb-2">
+    <label for="">Status</label><br>
+    <input type="radio" id="active" name="status" value="{{product.status}}">
+    <label for="active">Active</label><br>
+     <input type="radio" id="deactive" name="status" value="{{product.status}}">
+     <label for="deactive">DeActive</label>
+ </div>
+  <button type="submit" class="btn btn-primary mb-2">Update product</button>
+</form>

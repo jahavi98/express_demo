@@ -1,0 +1,43 @@
+
+<br>
+<h4> All Products </h4>
+<a class="btn btn-primary" href="/products/pcreate">Craete Product</a>
+<br>
+<br>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Product Number</th>
+      <th scope="col">Description</th>
+      <th scope="col">Image</th>
+      <th scope="col">Category</th>
+      <th scope="col">Price</th>
+      <th scope="col">Start Date</th>
+      <th scope="col">End Date</th>
+      <th scope="col">Status</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each data}}
+    <tr>
+      <th scope="row">{{this.id}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.pnumber}}</td>
+      <td>{{this.description}}</td>
+      <td>{{this.image}}</td>
+      <td>{{this.category}}</td>
+      <td>{{this.price}}</td>
+      <td>{{this.start_date}}</td>
+      <td>{{this.end_date}}</td>
+      <td>{{this.status}}</td>
+      <td>
+        <a class="btn btn-success" href="/products/pedit/{{this.id}}">Edit</a><br> <br>
+        <a class="btn btn-primary" href="/products/delete/{{this.id}}">Delete</a>
+      </td>
+    </tr>
+   {{/each}}
+  </tbody>
+</table>

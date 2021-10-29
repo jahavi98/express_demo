@@ -1,0 +1,52 @@
+<br>
+<h4>Create Product</h4>
+<a class="btn btn-primary" href="/products">All Products</a>
+<br>
+<br>
+<form action="/products/pcreate" method="POST" enctype="multipart/form-data">
+  <div class="form-group mb-2">
+    <label for="name">Product Name</label>
+    <input type="text" name="name" class="form-control" id="name">
+  </div>
+  <div class="form-group mb-2">
+    <label for="pnumber">Product Number</label>
+    <input type="text" name="pnumber" class="form-control" id="pnumber">
+  </div>
+   <div class="form-group mb-2">
+    <label for="description">Description</label>
+    <input type="text" name="description" class="form-control" id="description">
+  </div>
+   <div class="form-group mb-2">
+    <label for="image">Product Image</label>
+    <input type="file" name="image" class="form-control" id="image">
+  </div>
+  <div class="form-group mb-2">
+  <label for="category">Choose a Category:</label>
+  <select name="category" id="category">
+    <option value="shoe">Shoe</option>
+    <option value="food">Food</option>
+    <option value="Clothes">Clothes</option>
+    <option value="Other Category">Other Category</option>
+  </select>
+  </div>
+   <div class="form-group mb-2">
+    <label for="price">Price</label>
+    <input type="text" name="price" class="form-control" id="price">
+  </div>
+   <div class="form-group mb-2">
+    <label for="start_date">Start Date</label>
+    <input type="date" name="start_date" class="form-control" id="start_date">
+  </div>
+   <div class="form-group mb-2">
+    <label for="end_date">End Date</label>
+    <input type="date" name="end_date" class="form-control" id="end_date">
+  </div>
+  <div class="form-group mb-2">
+    <label for="">Status</label><br>
+    <input type="radio" id="active" name="status" value="0">
+    <label for="active">Active</label><br>
+     <input type="radio" id="deactive" name="status" value="1">
+     <label for="deactive">DeActive</label>
+ </div>
+     <button type="submit" class="btn btn-primary mb-2">Create Product</button>
+</form>

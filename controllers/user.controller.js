@@ -4,6 +4,7 @@ const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
 
+
 const allUser = async (req,res) => {
     const data = await Users.findAll({
         raw:true
