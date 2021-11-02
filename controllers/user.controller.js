@@ -2,6 +2,7 @@ const models = require("../models");
 const Users = models.Users;
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const CsvParser = require("json2csv").Parser;
 
 
 
@@ -76,6 +77,7 @@ const deleteUser = async (req,res) => {
    
     res.redirect('/');
 }
+
 
 module.exports = {
     allUser,userForm, saveUser, editUser, updateUser, deleteUser

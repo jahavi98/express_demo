@@ -5,9 +5,13 @@ const multer = require("multer");
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
 const path = require('path');
+var moment = require('moment-timezone');
+const CsvParser = require("json2csv").Parser;
+
 
 //all product home page 
 const allProduct = async (req,res) => {
+  console.log(res.__("text_test"),"translation")
     const data = await Products.findAll({
         raw:true
     }).catch(error=>console.log(error));
@@ -22,7 +26,7 @@ const productForm = async (req,res) => {
 //created product data save into database
 const saveProduct = async (req,res) => {
  let {name,pnumber,description,image,category,price,start_date,end_date,status} = await req.body;
- 
+
  if (!req.files || Object.keys(req.files).length === 0) {
   return res.status(400).send('No files were uploaded.');
 }
@@ -108,7 +112,27 @@ const deleteProduct = async (req,res) => {
     res.redirect('/products');
 }
 
+//csv data download
+const download = (req, res) => {
+    Products.findAll().then((objs) => {
+      let data = [];
+  
+      objs.forEach((obj) => {
+        const {name,pnumber,description,category,price,start_date,end_date,status} = obj;
+        data.push({ name,pnumber,description,category,price,start_date,end_date,status});
+      });
+  
+      const csvFields = ["Name", "SKU", "Description", "Category", "Price", "Start_date", "End_Date", "Status"];
+      const csvParser = new CsvParser({ csvFields });
+      const csvData = csvParser.parse(data);
+  
+      res.setHeader("Content-Type", "text/csv");
+      res.setHeader("Content-Disposition", "attachment; filename=productdata.csv");
+  
+      res.status(200).end(csvData);
+    });
+  };
 
 module.exports = {
-    allProduct,productForm, saveProduct, editProduct, updateProduct, deleteProduct
+    allProduct,productForm, saveProduct, editProduct, updateProduct, deleteProduct, download
 }

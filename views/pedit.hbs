@@ -1,23 +1,24 @@
+{{!-- The content for the app's home view which will be rendered into the layout's {{{body}}} --}}
 <br>
-<h4>Edit Product</h4>
-<a class="btn btn-primary" href="/products">All Products</a>
+<h4>{{{__ "epro"}}}</h4>
+<a class="btn btn-primary" href="/products">{{{__ "allpro"}}}</a>
 <br>
 <br>
 <form action="/products/update/{{product.id}}" method="POST" runat="server">
   <div class="form-group mb-2">
-    <label for="name">Product Name</label>
+    <label for="name">{{{__ "pname"}}}</label>
     <input type="text" name="name" value="{{product.name}}" class="form-control" id="name">
   </div>
   <div class="form-group mb-2">
-    <label for="pnumber">Product Number</label>
+    <label for="pnumber">{{{__ "pnumber"}}}</label>
     <input type="text" name="pnumber" value="{{product.pnumber}}" class="form-control" id="pnumber">
   </div>
    <div class="form-group mb-2">
-    <label for="description">Description</label>
+    <label for="description">{{{__ "desc"}}}</label>
     <input type="text" name="description" value="{{product.description}}" class="form-control" id="description">
   </div>
    <div class="form-group mb-2">
-    <label for="image">Product Image</label>
+    <label for="image">{{{__ "pimg"}}}</label>
     <input type="file" name="image" value="{{product.image}}" class="form-control" id="image">
     <img id="blah" src="#" alt="your image" />
     <br>
@@ -37,7 +38,7 @@ function myFunction() {
     </script>
   </div>
     <div class="form-group mb-2">
-  <label for="category">Choose a Category:</label>
+  <label for="category">{{{__ "category"}}}</label>
   <select name="category" id="category">
     <option value="{{product.category}}">Shoe</option>
     <option value="{{product.category}}">Food</option>
@@ -46,23 +47,23 @@ function myFunction() {
   </select>
   </div>
    <div class="form-group mb-2">
-    <label for="price">Price</label>
+    <label for="price">{{{__ "price"}}}</label>
     <input type="text" name="price" value="{{product.price}}" class="form-control" id="price">
   </div>
   <div class="form-group mb-2">
-    <label for="start_date">Start Date</label>
-    <input type="date" name="start_date" value="{{product.start_date}}" class="form-control" id="start_date">
+    <label for="start_date">{{{__ "strat_date"}}}</label>
+    <input type="date" name="start_date" value="{{product.start_date}}" placeholder="dd-mm-yyyy" class="form-control" id="start_date">
   </div>
    <div class="form-group mb-2">
-    <label for="end_date">End Date</label>
-    <input type="date" name="end_date" value="{{product.end_date}}" class="form-control" id="end_date">
+    <label for="end_date">{{{__ "end_date"}}}</label>
+    <input type="date" name="end_date" value="{{product.end_date}}" placeholder="dd-mm-yyyy" class="form-control" id="end_date">
   </div>
    <div class="form-group mb-2">
-    <label for="">Status</label><br>
+    <label for="">{{{__ "status"}}}</label><br>
     <input type="radio" id="active" name="status" value="{{product.status}}">
     <label for="active">Active</label><br>
      <input type="radio" id="deactive" name="status" value="{{product.status}}">
      <label for="deactive">DeActive</label>
  </div>
-  <button type="submit" class="btn btn-primary mb-2">Update product</button>
+  <button type="submit" class="btn btn-primary mb-2">{{{__ "upro"}}}</button>
 </form>

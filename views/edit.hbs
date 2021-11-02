@@ -5,13 +5,13 @@
 <br>
 <form action="/users/update/{{user.id}}" method="POST">
   <div class="form-group mb-2">
-    <label for="name">Name</label>
+    <label for="name">{{{__ "name"}}}</label>
     <input type="text" name="name" value="{{user.name}}" class="form-control" id="name" value="name">
   </div>
   <div class="form-group mb-2">
-    <label for="username">UserName</label>
+    <label for="username">{{{__ "uname"}}}</label>
     <input type="text" name="username" value="{{user.username}}" class="form-control" id="username" value="username">
   </div>
   
-  <button type="submit" class="btn btn-primary mb-2">Update User</button>
+  <button type="submit" class="btn btn-primary mb-2">{{{__ "upuser"}}}</button>
 </form>

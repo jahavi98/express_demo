@@ -1,23 +1,24 @@
 
 <br>
-<h4> All Products </h4>
-<a class="btn btn-primary" href="/products/pcreate">Craete Product</a>
+<h4> {{{__ "allpro"}}}</h4>
+<a class="btn btn-primary" href="/products/pcreate">{{{__ "cproduct"}}}</a><br> <br>
+<a class="btn btn-primary" href="/products/download">{{{__ "csv"}}}</a>
 <br>
 <br>
 <table class="table table-bordered">
   <thead>
     <tr>
       <th scope="col">id</th>
-      <th scope="col">Product Name</th>
-      <th scope="col">Product Number</th>
-      <th scope="col">Description</th>
-      <th scope="col">Image</th>
-      <th scope="col">Category</th>
-      <th scope="col">Price</th>
-      <th scope="col">Start Date</th>
-      <th scope="col">End Date</th>
-      <th scope="col">Status</th>
-      <th scope="col">Action</th>
+      <th scope="col">{{{__ "pname"}}}</th>
+      <th scope="col">{{{__ "pnumber"}}}</th>
+      <th scope="col">{{{__ "desc"}}}</th>
+      <th scope="col">{{{__ "pimg"}}}</th>
+      <th scope="col">{{{__ "category"}}}</th>
+      <th scope="col">{{{__ "price"}}}</th>
+      <th scope="col">{{{__ "strat_date"}}}</th>
+      <th scope="col">{{{__ "end_date"}}}</th>
+      <th scope="col">{{{__ "status"}}}</th>
+      <th scope="col">{{{__ "act"}}}</th>
     </tr>
   </thead>
   <tbody>
@@ -34,8 +35,8 @@
       <td>{{this.end_date}}</td>
       <td>{{this.status}}</td>
       <td>
-        <a class="btn btn-success" href="/products/pedit/{{this.id}}">Edit</a><br> <br>
-        <a class="btn btn-primary" href="/products/delete/{{this.id}}">Delete</a>
+        <a class="btn btn-success" href="/products/pedit/{{this.id}}">{{{__ "edit"}}}</a><br> <br>
+        <a class="btn btn-primary" href="/products/delete/{{this.id}}">{{{__ "dlt"}}}</a><br> <br>
       </td>
     </tr>
    {{/each}}
