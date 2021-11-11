@@ -19,16 +19,7 @@
    <div class="form-group mb-2">
     <label for="image">{{{__ "pimg"}}}</label>
     <input type="file" name="image" class="form-control" id="image">
-     <img id="blah" src="#" alt="" />
     <br>
-    <script>
-      image.onchange = evt => {
-      const [file] = image.files
-      if (file) {
-      blah.src = URL.createObjectURL(file)
-  }
-      }
-</script>
   </div>
   <div class="form-group mb-2">
   <label for="category">{{{__ "category"}}}</label>

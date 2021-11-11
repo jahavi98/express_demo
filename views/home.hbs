@@ -1,7 +1,7 @@
 <br>
 <h4>{{{__ "aluser"}}}</h4>
 <a class="btn btn-primary" href="/users/create">{{{__ "cruser"}}}</a><br><br>
-<table class="table table-bordered">
+<table class="table table-bordered" id="data">
   <thead>
     <tr>
       <th scope="col">id</th>
@@ -24,3 +24,10 @@
    {{/each}}
   </tbody>
 </table>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script>
+  jQuery(document).ready( function () {
+    jQuery('#data').DataTable();
+} );
+</script>

@@ -8,8 +8,10 @@ const session = require('express-session');
 const fileUpload = require('express-fileupload');
 const i18n = require('i18n');
 var moment = require('moment-timezone');
+const  jwt  =  require('jsonwebtoken');
 
-
+var uapiRouter = require('./routes/api/user.routes');
+var papiRouter = require('./routes/api/product.routes');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
@@ -46,13 +48,11 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-moment.tz.setDefault("Europe/Oslo");
+console.log('sets timezone to Europe/Oslo and locale to en');
 app.use(i18n.init);
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('upload'));
 app.use(fileUpload());
-
 
 
 app.use(session({
@@ -62,6 +62,7 @@ app.use(session({
   saveUninitialized: true,
   cookie: { maxAge: 900000}
 }));
+
 
 
 app.use((req, res, next) => {
@@ -74,27 +75,41 @@ app.use((req, res, next) => {
 app.get('/home', indexRouter);
 
 app.get('/nl', function (req, res) {
-  res.cookie('locale', 'no', { maxAge: 900000, httpOnly: true });
+  res.cookie('locale', 'no', { maxAge: 900000, httpOnly: true },
+  moment.tz.setDefault("Europe/Oslo"));
   res.redirect('/');
 });
 app.get('/en', function (req, res) {
-  res.cookie('locale', 'en', { maxAge: 900000 , httpOnly: true });
+  res.cookie('locale', 'en', { maxAge: 900000 , httpOnly: true },
+  moment.tz.setDefault("Asia/kolkata"));
   res.redirect('/');
 });
 
-if(cookie){
-  moment.tz.setDefault("cookie value");
-}
-else{
- moment.tz.setDefault("Asia/kolkata")
-}
+app.get('/api', (req,res) => {
+  res.json({
+    success: 1,
+    message: "This is rest apis working"
+  });
+});
 
+app.use(function(req, res, next) {
+    res.header(
+      "Access-Control-Allow-Headers",
+      "x-access-token, Origin, Content-Type, Accept"
+    );
+    next();
+  });
+
+app.use('/api/products',papiRouter);
+app.use('/api/users',uapiRouter);
 app.use('/', loginRouter);
 app.use('/users', usersRouter);
 app.use('/products',productsRouter);
 app.use(function (req, res, next) {
   res.status(404).send("Sorry can't find that!");
 });
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

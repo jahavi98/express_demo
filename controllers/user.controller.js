@@ -3,14 +3,18 @@ const Users = models.Users;
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const CsvParser = require("json2csv").Parser;
-
+var csrf = require('csurf');
 
 
 const allUser = async (req,res) => {
     const data = await Users.findAll({
+        where: {
+          is_selected:0
+         },
         raw:true
     }).catch(error=>console.log(error));
     await res.render('home',{data});
+    console.log("data",data)
 }
 
 const userForm = async (req,res) => {
@@ -19,8 +23,7 @@ const userForm = async (req,res) => {
 
 const saveUser = async (req,res) => {
  let {name,username,password} = req.body;
-   
- check('name','Name is required')
+   check('name','Name is required')
    .notEmpty(),
  check('username', 'This username must me 3+ characters long')
         .exists()
@@ -43,8 +46,7 @@ const test = await Users.create({
     name,username,password
 }).catch(error=>console.log(error));
 console.log(test)
-await res.redirect('/');
-
+await res.redirect('/users');
 }
 
 const editUser = async (req,res) => {
@@ -63,22 +65,36 @@ const updateUser = async (req,res) => {
     const dat = req.body;
     const selector = {where:{id:id}}
   await Users.update(dat, selector).catch(error=>console.log(error));
-    res.redirect('/');
+    res.redirect('/users');
 }
 
 const deleteUser = async (req,res) => {
-    const {id} = req.params;
-    const user = await Users.destroy({
-        where:{
-            id:id
-        },
-        raw:true
-    }).catch(error=>console.log(error));
-   
-    res.redirect('/');
+ const {id} = req.params; 
+  if(id==req.params)
+  {
+    const errors = [{
+                    
+      msg: 'You can not delete your current login credentials'
+      
+    }]
+    return  res.render('edit');
+  }
+  else
+  {
+    const user = await Users.update({
+        is_selected:1
+      }, {
+        where: {
+          id: id
+        }
+      }).catch(error=>console.log(error));
+     console.log("id",id)
+      res.redirect('/users');
+    }
+    
 }
-
 
 module.exports = {
     allUser,userForm, saveUser, editUser, updateUser, deleteUser
 }
+

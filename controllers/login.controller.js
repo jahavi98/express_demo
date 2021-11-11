@@ -3,6 +3,12 @@ const Users = models.Users;
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
+const jwt = require('jsonwebtoken');
+var csrf = require('csurf');
+
+
+const accessTokenSecret = 'youraccesstokensecret';
+
 
 const validatelogin = async (req,res,next) => {
     let userdata = req.session.userdata;
@@ -18,6 +24,7 @@ const validatelogin = async (req,res,next) => {
 
 const login = async (req,res,next) => {
     let userdata = req.session.userdata;
+    res.cookie('XSRF-TOKEN', req.csrfToken());
     console.log("sessiondata",req.session.userdata)
     if(userdata && userdata.id  && userdata.expires > userdata.set)
     {
@@ -25,7 +32,8 @@ const login = async (req,res,next) => {
     }
 //     else{
 //        res.redirect('/');
-// }
+// } 
+
     await res.render('login');
 }
 
@@ -46,24 +54,23 @@ const login = async (req,res,next) => {
            req.session.userdata = {}
            res.redirect('/');
        } else {
-        let userdata = {
+        let userdata = { 
             id:user.id,
             username:user.username,
             createdAt:user.createdAt,
             updatedAt:user.updatedAt,
             set: new Date(Date.now() + 900000),
             expires: new Date(Date.now() + 86400000)
-
-        }
+        };
+        
+        {
         req.session.userdata = userdata;
-        res.redirect('/users');
-       }
+         res. redirect('/users');
     }
- }).catch((err) => {
-    res.status(404).send({ field: 'general', message: 'user-not-found' });
-  });
+    }
 }
-
+});
+   }
 
 
 

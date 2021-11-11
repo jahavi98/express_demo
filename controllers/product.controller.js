@@ -5,11 +5,15 @@ const multer = require("multer");
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
 const path = require('path');
-var moment = require('moment-timezone');
+var moment = require('moment');
 const CsvParser = require("json2csv").Parser;
+const excel = require("exceljs");
+var pdf = require('html-pdf');
+var options = {format: 'Letter'};
+var stringify = require('json-stringify');
+var parse = require('jsonparse')
 
-
-//all product home page 
+//all product home page
 const allProduct = async (req,res) => {
   console.log(res.__("text_test"),"translation")
     const data = await Products.findAll({
@@ -54,6 +58,7 @@ if(targetFile.size > 1048576){
   console.log("target file",targetfile.size)
   return res.status(413).send("File is too Large");
 }
+
 //for replace file name & store in folder
 let timestamp = new Date().getTime();
 uploadDir = uploadDir.replace(baseName,timestamp);
@@ -113,26 +118,128 @@ const deleteProduct = async (req,res) => {
 }
 
 //csv data download
-const download = (req, res) => {
+  const download = (req, res) => {
     Products.findAll().then((objs) => {
-      let data = [];
-  
+      let product = [];
+    
+      const csvFields = {name:"Name", pnumber:"SKU", description:"Description", category:"Category", price:"Price", start_date:"Start_date", 
+      end_date:"End_Date", status:"Status"};
+      
+      product.push(csvFields);
       objs.forEach((obj) => {
         const {name,pnumber,description,category,price,start_date,end_date,status} = obj;
-        data.push({ name,pnumber,description,category,price,start_date,end_date,status});
+        product.push({ name,pnumber,description,category,price,start_date,end_date,status});
+
       });
-  
-      const csvFields = ["Name", "SKU", "Description", "Category", "Price", "Start_date", "End_Date", "Status"];
-      const csvParser = new CsvParser({ csvFields });
-      const csvData = csvParser.parse(data);
+      console.log("product",product)
+      const csvParser = new CsvParser({header:false});
+      const csvData = csvParser.parse(product);
   
       res.setHeader("Content-Type", "text/csv");
-      res.setHeader("Content-Disposition", "attachment; filename=productdata.csv");
+      res.setHeader("Content-Disposition", "attachment; filename=product.csv");
   
       res.status(200).end(csvData);
     });
   };
 
+//pdf data format
+const pdoc = async (req,res,next) => {
+  Products.findAll().then((objs) => {
+    let product = [];
+
+    objs.forEach((obj) => {
+      const {name,pnumber,description,category,price,start_date,end_date,status} = obj;
+      product.push({ name,pnumber,description,category,price,start_date,end_date,status});
+    });
+  console.log("product",product)
+  const jsonData = JSON.parse(JSON.stringify(product));
+  console.log("json",jsonData)
+  res.render('phome',{product:jsonData}, (err, data) => {
+    if (err) {
+          res.send(err);
+    }else{
+      var options = {
+        "height": "11.25in",
+        "width": "8.5in",
+        "header": {
+            "height": "20mm"
+        },
+        "footer": {
+            "height": "20mm",
+        },
+      };
+    }
+    pdf.create(data, options).toFile("./public/downloads/product.pdf", function (err, data) {
+      if (err) {
+          res.send(err);
+      } else {
+         res.status(200).end();
+      }
+    });
+  });
+});
+}; 
+
+//xls data format
+const xlsx = (req, res) => {
+  Products.findAll().then((objs) => {
+    let data = [];
+
+    objs.forEach((obj) => {
+      data.push({
+        name: obj.name,
+        pnumber: obj.pnumber,
+        description: obj.description,
+        category: obj.category,
+        price: obj.price,
+        start_date: obj.start_date,
+        end_date: obj.end_date,
+        status :obj.status,
+      });
+    });
+
+    let workbook = new excel.Workbook();
+    let worksheet = workbook.addWorksheet("Products");
+
+    worksheet.columns = [
+      { header: "Name", key: "name", width: 25 },
+      { header: "SKU", key: "pnumber", width: 25 },
+      { header: "Description", key: "description", width: 10 },
+      { header: "Category", key: "category", width: 10 },
+      { header: "Price", key: "price", width: 10 },
+      { header: "Start_Date", key: "start_date", width: 10 },
+      { header: "End_Date", key: "end_date", width: 10 },
+      { header: "Status", key: "status", width: 10 },
+
+    ];
+
+    // Add Array Rows
+    worksheet.addRows(data);
+
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=" + "products.xlsx"
+    );
+
+    return workbook.xlsx.write(res).then(function () {
+      res.status(200).end();
+    });
+  });
+};
+
 module.exports = {
-    allProduct,productForm, saveProduct, editProduct, updateProduct, deleteProduct, download
+    allProduct,productForm, saveProduct, editProduct, updateProduct, deleteProduct, download, xlsx, pdoc
 }
+
+// {
+//   info: info,
+// }, function (err, HTML) {
+//   pdf.create(HTML, options).toFile('./public/downloads/product.pdf', function (err, res) {
+//    if (err) return console.log(err);
+//    console.log(res);
+//   })
+// })

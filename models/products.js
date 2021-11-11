@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     category:DataTypes.STRING,
     status:DataTypes.STRING,
     start_date:DataTypes.DATE,
-    end_date:DataTypes.DATE
+    end_date:DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'Products',

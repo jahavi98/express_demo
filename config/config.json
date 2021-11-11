@@ -4,7 +4,8 @@
     "password": null,
     "database": "demo",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "timezone": "Asia/kolkata"
   },
   "test": {
     "username": "root",
@@ -19,5 +20,6 @@
     "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "mysql"
-  }
+  },
+  "secret": "THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING"
 }

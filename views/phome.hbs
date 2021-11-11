@@ -1,11 +1,16 @@
-
-<br>
+<html>
+<body>
 <h4> {{{__ "allpro"}}}</h4>
-<a class="btn btn-primary" href="/products/pcreate">{{{__ "cproduct"}}}</a><br> <br>
-<a class="btn btn-primary" href="/products/download">{{{__ "csv"}}}</a>
-<br>
-<br>
-<table class="table table-bordered">
+<a class="btn btn-primary" href="/products/pcreate">{{{__ "cproduct"}}}</a>
+<div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Download</a>
+                    <div class="dropdown-menu" id="google_translate_element">
+                        <a href="/products/download" class="dropdown-item">CSV Format</a>
+                        <a href="/products/pdf" class="dropdown-item">PDF FOrmat</a>
+                        <a href="/products/xlsx" class="dropdown-item">XLSX Format</a>
+                    </div>
+            </div>
+<table class="table table-bordered" id="pro" style="width:100%">
   <thead>
     <tr>
       <th scope="col">id</th>
@@ -42,3 +47,12 @@
    {{/each}}
   </tbody>
 </table>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script>
+  jQuery(document).ready( function () {
+    jQuery('#pro').DataTable();
+} );
+</script>
+</body>
+</html>
