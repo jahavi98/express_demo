@@ -1,4 +1,53 @@
 {{!-- The content for the app's home view which will be rendered into the layout's {{{body}}} --}}
+<html>
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
+</head>
+<div class="bs-example">
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a href="#" class="navbar-brand">Management System</a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+            <div class="navbar-nav">
+                <a href="#" class="nav-item nav-link active">Home</a>
+                 {{!-- <div class="navbar-nav">
+                <a href="/users/create" class="nav-item nav-link">Create</a>
+            </div> --}}
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Action</a>
+                    <div class="dropdown-menu">
+                        <a href="/users" class="dropdown-item">Users</a>
+                        <a href="/products" class="dropdown-item">Products</a>
+                        <a href="#" class="dropdown-item">Other</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Change Language</a>
+                    <div class="dropdown-menu" id="google_translate_element">
+                        <a href="/en" class="dropdown-item">English</a>
+                        <a href="/nl" class="dropdown-item">Norway</a>
+                        <a href="#" class="dropdown-item">Other</a>
+                    </div>
+            </div>
+            </div>
+            {{!-- <form class="form-inline">
+                <div class="input-group">                    
+                    <input type="text" class="form-control" placeholder="Search">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form> --}}
+            <div class="navbar-nav">
+                <a href="/" class="nav-item nav-link">Logout</a>
+            </div>
+            
+        </div>
+    </nav>
 <br>
 <h4>{{{__ "epro"}}}</h4>
 <a class="btn btn-primary" href="/products">{{{__ "allpro"}}}</a>
@@ -17,10 +66,17 @@
     <label for="description">{{{__ "desc"}}}</label>
     <input type="text" name="description" value="{{product.description}}" class="form-control" id="description">
   </div>
+   {{!-- <div class="form-group mb-2">
+    <label for="description">{{{__ "desc"}}}</label>
+    <textarea  name="description" class="form-control" value="{{product.description}}" id="description"> </textarea>
+    <script>
+    new FroalaEditor('textarea');
+    </script> --}}
+  </div>
    <div class="form-group mb-2">
     <label for="image">{{{__ "pimg"}}}</label>
     <input type="file" name="image" value="{{product.image}}" class="form-control" id="image">
-    <img id="blah" src="#" alt="your image" />
+    <img id="blah" src="{{product.image}}" alt="your image" />
     <br>
     <a class="btn btn-primary" href="#" onclick="myFunction()">Remove</a>
     <script>
@@ -67,3 +123,4 @@ function myFunction() {
  </div>
   <button type="submit" class="btn btn-primary mb-2">{{{__ "upro"}}}</button>
 </form>
+</html>

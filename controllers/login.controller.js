@@ -4,9 +4,6 @@ const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
-var csrf = require('csurf');
-
-
 const accessTokenSecret = 'youraccesstokensecret';
 
 
@@ -22,9 +19,16 @@ const validatelogin = async (req,res,next) => {
 }
 }
 
+// const sessionval = async(req,res,next) => {
+//     if(!req.session.userdata.id)
+//     {
+//    return res.redirect('/')
+//     }
+//     return next()
+// }
+
 const login = async (req,res,next) => {
     let userdata = req.session.userdata;
-    res.cookie('XSRF-TOKEN', req.csrfToken());
     console.log("sessiondata",req.session.userdata)
     if(userdata && userdata.id  && userdata.expires > userdata.set)
     {
@@ -72,7 +76,12 @@ const login = async (req,res,next) => {
 });
    }
 
-
+//    const logout = (req,res) => {
+//     res.cookie('user_sid', '', {expires: new Date(1), path: '/' });
+//     req.logOut();
+//      res.clearCookie('user_sid', { path: '/' });
+//      res.redirect('/');
+//  };
 
 module.exports = {
      loginUser, login , validatelogin

@@ -57,11 +57,10 @@ app.use(fileUpload());
 app.use(session({
   key: "user_sid",
   secret: 'hello',
-  resave: true,
+  resave: false,
   saveUninitialized: true,
   cookie: { maxAge: 900000}
 }));
-
 
 
 app.use((req, res, next) => {

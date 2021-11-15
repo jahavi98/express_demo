@@ -8,6 +8,7 @@ const path = require('path');
 const CsvParser = require("json2csv").Parser;
 const excel = require("exceljs");
 const PDFDocument = require("pdfkit");
+var moment = require('moment');
 
 
 //all product home page
@@ -27,7 +28,7 @@ const productForm = async (req,res) => {
 //created product data save into database
 const saveProduct = async (req,res) => {
  let {name,pnumber,description,image,category,price,start_date,end_date,status} = await req.body;
-
+ 
  if (!req.files || Object.keys(req.files).length === 0) {
   return res.status(400).send('No files were uploaded.');
 }
@@ -35,7 +36,7 @@ console.log("files",req.files)
 
 let targetFile = req.files.image;
 let extName = path.extname(targetFile.name);
-let baseName = path.basename(targetFile.name, extName);
+let baseName = path.basename(targetFile.name + extName);
 let uploadDir = path.join(__dirname, '../public/images/', targetFile.name);
 
 console.log("extname",extName)
@@ -116,6 +117,12 @@ const deleteProduct = async (req,res) => {
 
 //csv data download
   const download = (req, res) => {
+    const date_1 = "DD-MM-YYYY";
+ 
+        start_date = moment().format(date_1);
+        console.log("date",start_date)
+        end_date = moment().format(date_1);
+
     Products.findAll().then((objs) => {
       let product = [];
     
@@ -123,6 +130,7 @@ const deleteProduct = async (req,res) => {
       end_date:"End_Date", status:"Status"};
       
       product.push(csvFields);
+
       objs.forEach((obj) => {
         const {name,pnumber,description,category,price,start_date,end_date,status} = obj;
         product.push({ name,pnumber,description,category,price,start_date,end_date,status});
@@ -140,74 +148,74 @@ const deleteProduct = async (req,res) => {
   };
 
 
-//pdf data fromat
-const docu = (req, res) => {
+// //pdf data fromat
+// const docu = (req, res) => {
 
-function createInvoice(Products) {
-  let doc = new PDFDocument({ size: "A4", margin: 50 });
+// function createInvoice(Products) {
+//   let doc = new PDFDocument({ size: "A4", margin: 50 });
 
-  generateInvoiceTable(doc, Products);
+//   generateInvoiceTable(doc, Products);
 
-  doc.end();
-  doc.pipe(fs.createWriteStream('products.pdf'));}
+//   doc.end();
+//   doc.pipe(fs.createWriteStream('products.pdf'));}
 
-function generateInvoiceTable(doc, Products) {
-  let i;
+// function generateInvoiceTable(doc, Products) {
+//   let i;
 
-  doc.font("Helvetica-Bold");
-  generateTableRow(
-    doc,
-    "Name",
-    "SKU",
-    "Description",
-    "Category",
-    "Price",
-    "Start_Date",
-    "End_Date",
-    "Status"
-  );
-  doc.font("Helvetica");
+//   doc.font("Helvetica-Bold");
+//   generateTableRow(
+//     doc,
+//     "Name",
+//     "SKU",
+//     "Description",
+//     "Category",
+//     "Price",
+//     "Start_Date",
+//     "End_Date",
+//     "Status"
+//   );
+//   doc.font("Helvetica");
 
-  for (i = 0; i < Products.id.length; i++) {
-    const product = Products.id[i];
-    generateTableRow(
-      doc,
-      product.name,
-      product.pnumber,
-      product.description,
-      product.category,
-      product.start_date,
-      product.end_date,
-      product.status
-    );
-  }
+//   for (i = 0; i < Products.id.length; i++) {
+//     const product = Products.id[i];
+//     generateTableRow(
+//       doc,
+//       product.name,
+//       product.pnumber,
+//       product.description,
+//       product.category,
+//       product.start_date,
+//       product.end_date,
+//       product.status
+//     );
+//   }
 
-  function generateTableRow(
-    doc,
-    y,
-    name,
-    pnumber,
-    description,
-    category,
-    price,
-    start_date,
-    end_date,
-    status
-  ) {
-    doc
-      .fontSize(10)
-      .text(name, 50, y)
-      .text(pnumber,50,y)
-      .text(description, 150, y)
-      .text(category, 280, y, { width: 90, align: "right" })
-      .text(price, 370, y, { width: 90, align: "right" })
-      .text(start_date, 370, y, { width: 90, align: "right" })
-      .text(end_date, 370, y, { width: 90, align: "right" })
-      .text(status, 370, y, { width: 90, align: "right" })
-  }
+//   function generateTableRow(
+//     doc,
+//     y,
+//     name,
+//     pnumber,
+//     description,
+//     category,
+//     price,
+//     start_date,
+//     end_date,
+//     status
+//   ) {
+//     doc
+//       .fontSize(10)
+//       .text(name, 50, y)
+//       .text(pnumber,50,y)
+//       .text(description, 150, y)
+//       .text(category, 280, y, { width: 90, align: "right" })
+//       .text(price, 370, y, { width: 90, align: "right" })
+//       .text(start_date, 370, y, { width: 90, align: "right" })
+//       .text(end_date, 370, y, { width: 90, align: "right" })
+//       .text(status, 370, y, { width: 90, align: "right" })
+//   }
 
-}
-};
+// }
+// };
 //xls data format
 const xlsx = (req, res) => {
   Products.findAll().then((objs) => {
@@ -260,7 +268,7 @@ const xlsx = (req, res) => {
 };
 
 module.exports = {
-    allProduct,productForm, saveProduct, editProduct, updateProduct, deleteProduct, download, xlsx, docu
+    allProduct,productForm, saveProduct, editProduct, updateProduct, deleteProduct, download, xlsx
 }
 
 

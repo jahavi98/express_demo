@@ -1,14 +1,14 @@
 var express = require('express');
 var router = express.Router();
-var {login,loginUser} = require('../controllers/login.controller');
-var csrf = require('csurf');
-const csrfprotect=csrf({cookie:true});
+var {login,loginUser, logout} = require('../controllers/login.controller');
 
 
 
 
 /* GET home page. */
-router.get('/',csrfprotect, login);
+router.get('/', login);
 router.post('/',loginUser);
+// router.get('/logout',logout);
+
 
 module.exports = router;

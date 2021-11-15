@@ -1,3 +1,48 @@
+
+ <div class="bs-example">
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a href="#" class="navbar-brand">Management System</a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+            <div class="navbar-nav">
+                <a href="#" class="nav-item nav-link active">Home</a>
+                 {{!-- <div class="navbar-nav">
+                <a href="/users/create" class="nav-item nav-link">Create</a>
+            </div> --}}
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Action</a>
+                    <div class="dropdown-menu">
+                        <a href="/users" class="dropdown-item">Users</a>
+                        <a href="/products" class="dropdown-item">Products</a>
+                        <a href="#" class="dropdown-item">Other</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Change Language</a>
+                    <div class="dropdown-menu" id="google_translate_element">
+                        <a href="/en" class="dropdown-item">English</a>
+                        <a href="/nl" class="dropdown-item">Norway</a>
+                        <a href="#" class="dropdown-item">Other</a>
+                    </div>
+            </div>
+            </div>
+            {{!-- <form class="form-inline">
+                <div class="input-group">                    
+                    <input type="text" class="form-control" placeholder="Search">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form> --}}
+            <div class="navbar-nav">
+                <a href="/" class="nav-item nav-link">Logout</a>
+            </div>
+            
+        </div>
+    </nav>
 <br>
 <h4>{{{__ "aluser"}}}</h4>
 <a class="btn btn-primary" href="/users/create">{{{__ "cruser"}}}</a><br><br>
@@ -27,7 +72,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script>
-  jQuery(document).ready( function () {
-    jQuery('#data').DataTable();
+  $(document).ready( function () {
+    $('#data').DataTable();
 } );
 </script>
