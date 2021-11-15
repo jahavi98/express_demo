@@ -5,13 +5,10 @@ const multer = require("multer");
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
 const path = require('path');
-var moment = require('moment');
 const CsvParser = require("json2csv").Parser;
 const excel = require("exceljs");
-var pdf = require('html-pdf');
-var options = {format: 'Letter'};
-var stringify = require('json-stringify');
-var parse = require('jsonparse')
+const PDFDocument = require("pdfkit");
+
 
 //all product home page
 const allProduct = async (req,res) => {
@@ -142,44 +139,75 @@ const deleteProduct = async (req,res) => {
     });
   };
 
-//pdf data format
-const pdoc = async (req,res,next) => {
-  Products.findAll().then((objs) => {
-    let product = [];
 
-    objs.forEach((obj) => {
-      const {name,pnumber,description,category,price,start_date,end_date,status} = obj;
-      product.push({ name,pnumber,description,category,price,start_date,end_date,status});
-    });
-  console.log("product",product)
-  const jsonData = JSON.parse(JSON.stringify(product));
-  console.log("json",jsonData)
-  res.render('phome',{product:jsonData}, (err, data) => {
-    if (err) {
-          res.send(err);
-    }else{
-      var options = {
-        "height": "11.25in",
-        "width": "8.5in",
-        "header": {
-            "height": "20mm"
-        },
-        "footer": {
-            "height": "20mm",
-        },
-      };
-    }
-    pdf.create(data, options).toFile("./public/downloads/product.pdf", function (err, data) {
-      if (err) {
-          res.send(err);
-      } else {
-         res.status(200).end();
-      }
-    });
-  });
-});
-}; 
+//pdf data fromat
+const docu = (req, res) => {
 
+function createInvoice(Products) {
+  let doc = new PDFDocument({ size: "A4", margin: 50 });
+
+  generateInvoiceTable(doc, Products);
+
+  doc.end();
+  doc.pipe(fs.createWriteStream('products.pdf'));}
+
+function generateInvoiceTable(doc, Products) {
+  let i;
+
+  doc.font("Helvetica-Bold");
+  generateTableRow(
+    doc,
+    "Name",
+    "SKU",
+    "Description",
+    "Category",
+    "Price",
+    "Start_Date",
+    "End_Date",
+    "Status"
+  );
+  doc.font("Helvetica");
+
+  for (i = 0; i < Products.id.length; i++) {
+    const product = Products.id[i];
+    generateTableRow(
+      doc,
+      product.name,
+      product.pnumber,
+      product.description,
+      product.category,
+      product.start_date,
+      product.end_date,
+      product.status
+    );
+  }
+
+  function generateTableRow(
+    doc,
+    y,
+    name,
+    pnumber,
+    description,
+    category,
+    price,
+    start_date,
+    end_date,
+    status
+  ) {
+    doc
+      .fontSize(10)
+      .text(name, 50, y)
+      .text(pnumber,50,y)
+      .text(description, 150, y)
+      .text(category, 280, y, { width: 90, align: "right" })
+      .text(price, 370, y, { width: 90, align: "right" })
+      .text(start_date, 370, y, { width: 90, align: "right" })
+      .text(end_date, 370, y, { width: 90, align: "right" })
+      .text(status, 370, y, { width: 90, align: "right" })
+  }
+
+}
+};
 //xls data format
 const xlsx = (req, res) => {
   Products.findAll().then((objs) => {
@@ -232,14 +260,58 @@ const xlsx = (req, res) => {
 };
 
 module.exports = {
-    allProduct,productForm, saveProduct, editProduct, updateProduct, deleteProduct, download, xlsx, pdoc
+    allProduct,productForm, saveProduct, editProduct, updateProduct, deleteProduct, download, xlsx, docu
 }
 
-// {
-//   info: info,
-// }, function (err, HTML) {
-//   pdf.create(HTML, options).toFile('./public/downloads/product.pdf', function (err, res) {
-//    if (err) return console.log(err);
-//    console.log(res);
-//   })
-// })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//pdf data format
+// const pdoc = async (req,res,next) => {
+//   Products.findAll().then((objs) => {
+//     let product = [];
+
+//     objs.forEach((obj) => {
+//       const {name,pnumber,description,category,price,start_date,end_date,status} = obj;
+//       product.push({ name,pnumber,description,category,price,start_date,end_date,status});
+//     });
+//   console.log("product",product)
+//   const jsonData = JSON.parse(JSON.stringify(product));
+//   console.log("json",jsonData)
+//   res.render('phome',{product:jsonData}, (err, data) => {
+//     if (err) {
+//           res.send(err);
+//     }else{
+//       var options = {
+//         "height": "11.25in",
+//         "width": "8.5in",
+//         "header": {
+//             "height": "20mm"
+//         },
+//         "footer": {
+//             "height": "20mm",
+//         },
+//       };
+//     }
+//     pdf.create(data, options).toFile("./public/downloads/product.pdf", function (err, data) {
+//       if (err) {
+//           res.send(err);
+//       } else {
+//          res.status(200).end();
+//       }
+//     });
+//   });
+// });
+// }; 
+

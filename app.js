@@ -54,11 +54,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('upload'));
 app.use(fileUpload());
 
-
 app.use(session({
   key: "user_sid",
   secret: 'hello',
-  resave: false,
+  resave: true,
   saveUninitialized: true,
   cookie: { maxAge: 900000}
 }));
