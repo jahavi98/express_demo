@@ -21,12 +21,11 @@
 <div class="row justify-content-md-center" style="margin-top: 100px">
     <div class="col-md-6">
 
-        {{#if message}}
-            <div class="alert {{messageClass}}" role="alert">
-                {{message}}
-            </div>
-        {{/if}}
-
+     {{# if errors }}
+    {{# each errors }}
+          <p class="alert alert-danger">{{ this.msg }}</p>
+    {{/each}}
+{{/if}}
 
         <form method="POST" action="/">
 

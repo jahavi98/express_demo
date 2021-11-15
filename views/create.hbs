@@ -37,7 +37,7 @@
                 </div>
             </form> --}}
             <div class="navbar-nav">
-                <a href="/" class="nav-item nav-link">Logout</a>
+                <a href="/logout" class="nav-item nav-link">Logout</a>
             </div>
             
         </div>
@@ -47,6 +47,11 @@
 <a class="btn btn-primary" href="/">{{{__ "aluser"}}}</a>
 <br>
 <br>
+{{# if errors }}
+    {{# each errors }}
+          <p class="alert alert-danger">{{ this.msg }}</p>
+    {{/each}}
+{{/if}}
 <form action="/users/create" method="POST">
   <div class="form-group mb-2">
     <label for="name">{{{__ "name"}}}</label>

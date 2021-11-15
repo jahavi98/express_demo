@@ -1,31 +1,25 @@
 const models = require("../models");
 const Users = models.Users;
+const jwt = require('jsonwebtoken');
+const accessTokenSecret = 'youraccesstokensecret';
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
-const jwt = require('jsonwebtoken');
-const accessTokenSecret = 'youraccesstokensecret';
-
 
 const validatelogin = async (req,res,next) => {
     let userdata = req.session.userdata;
-    console.log("sessiondata",req.session.userdata)
-    if(userdata && userdata.id && userdata.expires > userdata.set)
-    {
+    console.log("sessiondata",req.session.userdat)
+    if(userdata && userdata.id  && userdata.expires > userdata.set)
+    { 
+        console.log("udata",userdata)
         next();
     }
-    else{
+    else
+    {
+      console.log("edata",userdata)
        res.redirect('/');
+    }
 }
-}
-
-// const sessionval = async(req,res,next) => {
-//     if(!req.session.userdata.id)
-//     {
-//    return res.redirect('/')
-//     }
-//     return next()
-// }
 
 const login = async (req,res,next) => {
     let userdata = req.session.userdata;
@@ -34,14 +28,11 @@ const login = async (req,res,next) => {
     {
         next();
     }
-//     else{
-//        res.redirect('/');
-// } 
-
     await res.render('login');
 }
 
- const loginUser = async (req,res) => {
+
+const loginUser = async (req,res) => {
      console.log("hello",req.body)
     const {username} = req.body;
     const user = Users.findOne({
@@ -70,19 +61,17 @@ const login = async (req,res,next) => {
         {
         req.session.userdata = userdata;
          res. redirect('/users');
-    }
-    }
-}
+        }
+              }       
+              }
 });
-   }
-
-//    const logout = (req,res) => {
-//     res.cookie('user_sid', '', {expires: new Date(1), path: '/' });
-//     req.logOut();
-//      res.clearCookie('user_sid', { path: '/' });
-//      res.redirect('/');
-//  };
+}
+const logout = async(req,res) => {
+   req.session.destroy()
+   return res.redirect('/')
+  }
+  
 
 module.exports = {
-     loginUser, login , validatelogin
+     loginUser, login , validatelogin, logout
 }

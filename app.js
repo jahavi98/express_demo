@@ -7,6 +7,7 @@ var logger = require('morgan');
 const session = require('express-session');
 const fileUpload = require('express-fileupload');
 const i18n = require('i18n');
+const expressValidator = require('express-validator');
 var moment = require('moment-timezone');
 const  jwt  =  require('jsonwebtoken');
 
@@ -54,6 +55,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('upload'));
 app.use(fileUpload());
 
+
 app.use(session({
   key: "user_sid",
   secret: 'hello',
@@ -62,13 +64,12 @@ app.use(session({
   cookie: { maxAge: 900000}
 }));
 
-
-app.use((req, res, next) => {
-  if (req.cookies.user_sid && !req.session.user) {
-    res.clearCookie("user_sid");
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   if (req.cookies.user_sid && !req.session.user) {
+//     res.clearCookie("user_sid");
+//   }
+//   next();
+// });
 
 app.get('/home', indexRouter);
 
