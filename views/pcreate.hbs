@@ -3,11 +3,6 @@
       <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
 </head>
-  {{#if errors}}
-    {{#each errors}}
-          <p class="alert alert-danger">{{this.msg}}</p>
-    {{/each}}
-{{/if}}
  <div class="bs-example">
     <nav class="navbar navbar-expand-md navbar-light bg-light">
         <a href="#" class="navbar-brand">{{__ "manasys"}}</a>
@@ -24,13 +19,13 @@
                         <a href="/products" class="dropdown-item">{{__ "products"}}</a>
                     </div>
                 </div>
-                  <div class="nav-item dropdown">
+                  {{!-- <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{__ "clang"}}</a>
                     <div class="dropdown-menu" id="google_translate_element">
                         <a href="/en" class="dropdown-item">English</a>
                         <a href="/nl" class="dropdown-item">Norway</a>
                     </div>
-            </div>
+            </div> --}}
             </div>
             <div class="navbar-nav">
                 <a href="/logout" class="nav-item nav-link">{{__ "logout"}}</a>
@@ -43,6 +38,11 @@
 <a class="btn btn-primary" href="/products">{{{__ "allpro"}}}</a>
 <br>
 <br>
+{{#if errors}}
+    {{#each errors}}
+          <p class="alert alert-danger">{{this.msg}}</p>
+    {{/each}}
+{{/if}}
 
 <form action="/products/pcreate" method="POST" enctype="multipart/form-data">
   <div class="form-group mb-2">
@@ -55,8 +55,8 @@
   </div>
   <div class="form-group mb-2">
     <label for="description">{{{__ "desc"}}}</label>
-        <input type="text" id="description" name="description"  class="form-control">
-{{!-- 
+      {{!-- <input type="text" id="description" name="description"  class="form-control"> --}}
+
      <textarea type="text" id="description" name="description" class="form-control"></textarea>
       <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
      <script>
@@ -84,7 +84,7 @@
     });
   },
 });
-     </script> --}}
+     </script>
   </div>
    <div class="form-group mb-2">
     <label for="image">{{{__ "pimg"}}}</label>

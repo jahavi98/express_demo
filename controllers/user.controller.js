@@ -3,8 +3,9 @@ const Users = models.Users;
 const bcrypt = require('bcryptjs');
 const CsvParser = require("json2csv").Parser;
 var csrf = require('csurf');
+const {body, validationResult } = require('express-validator');
 
-
+//all user home page
 const allUser = async (req,res) => {
     const data = await Users.findAll({
         where: {
@@ -16,41 +17,37 @@ const allUser = async (req,res) => {
     console.log("data",data)
 }
 
+
+//new user created
 const userForm = async (req,res) => {
-    await res.render('create',{title:'user registration page',errors:''});
+    await res.render('create');
 }
 
+
+//created user data save into database
 const saveUser = async (req,res) => {
- let {name,username,password} = req.body;
- try{
-  const user = await Users.findOne({
 
-      where: {
-          username: username ,
-          is_selected:0
-      }
-    })
-    if(user)
-    {
-      const errors = [{
-      
-        msg: 'This Username is already exist',
-        
-      }]
-      return  res.render('users',{title:'my reg page',errors:errors})
-     }
-    else{
-password = bcrypt.hashSync(password, 10);
-const test = await Users.create({name,username,password});
-}
- }
- catch(error)
- {
-     console.log(error)
-     return res.status(500).json(error)
- }   
- }
+  //validation error
+  const errors = validationResult(req)
+  console.log(errors)
  
+if(!errors.isEmpty())
+{
+  return  res.render('create',{errors:errors['errors']})
+
+}
+
+//save user data
+ let {name,username,password} = req.body;
+ 
+password = bcrypt.hashSync(password, 10);
+const test = await Users.create({
+  name,username,password}).catch(error=>console.log(error));
+  res.redirect('/users');
+}
+
+
+//edit user page data
 const editUser = async (req,res) => {
     const {id} = await req.params;
 const user = await Users.findOne({
@@ -62,6 +59,8 @@ const user = await Users.findOne({
     res.render('edit',{errors:'',user});
 }
 
+
+//update edited data into the database
 const updateUser = async (req,res) => {
     const {id} = req.params;
     const dat = req.body;
@@ -70,6 +69,8 @@ const updateUser = async (req,res) => {
     res.redirect('/users');
 }
 
+
+//delete the user
 const deleteUser = async (req,res) => {
  const {id} = req.params; 
   if(id==req.params)

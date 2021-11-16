@@ -20,13 +20,13 @@
                         <a href="/products" class="dropdown-item">{{__ "products"}}</a>
                     </div>
                 </div>
-                  <div class="nav-item dropdown">
+                  {{!-- <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{__ "clang"}}</a>
                     <div class="dropdown-menu" id="google_translate_element">
                         <a href="/en" class="dropdown-item">English</a>
                         <a href="/nl" class="dropdown-item">Norway</a>
                     </div>
-            </div>
+            </div> --}}
             </div>
             <div class="navbar-nav">
                 <a href="/logout" class="nav-item nav-link">{{__ "logout"}}</a>
@@ -56,39 +56,11 @@
    <div class="form-group mb-2">
     <label for="description">{{{__ "desc"}}}</label>
     <input type="text" id="description" name="description" value="{{product.description}}" class="form-control">
-     {{!-- <textarea type="text" id="description" name="description" value="{{product.description}}" class="form-control" ></textarea>
-      <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-     <script>
-       tinymce.init({
-       selector: "textarea#description",
-       skin: "bootstrap",
-       plugins: "lists, link, image, media",
-       toolbar:
-       "h1 h2 bold italic strikethrough blockquote bullist numlist backcolor | link image media | removeformat help",
-        menubar: false,
-  setup: (description) => {
-    // Apply the focus effect
-    description.on("init", () => {
-      description.getContainer().style.transition =
-        "border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out";
-    });
-    description.on("focus", () => {
-      (description.getContainer().style.boxShadow =
-        "0 0 0 .2rem rgba(0, 123, 255, .25)"),
-        (description.getContainer().style.borderColor = "#80bdff");
-    });
-   description.on("blur", () => {
-      (description.getContainer().style.boxShadow = ""),
-        (description.getContainer().style.borderColor = "");
-    });
-  },
-});
-     </script> --}}
   </div>
    <div class="form-group mb-2">
     <label for="image">{{{__ "pimg"}}}</label>
     <input type="file" name="image" value="{{product.image}}" class="form-control" id="image">
-    {{!-- <img id="blah" src="{{product.image}}" alt="your image" />
+    <img id="blah" src="#" alt="your image" />
     <br>
     <a class="btn btn-primary" href="#" onclick="myFunction()">Remove</a>
     <script>
@@ -103,7 +75,7 @@ function myFunction() {
   var myobj = document.getElementById("blah");
   myobj.remove();
 }
-    </script> --}}
+    </script>
   </div>
     <div class="form-group mb-2">
   <label for="category">{{{__ "category"}}}</label>
@@ -126,13 +98,14 @@ function myFunction() {
     <label for="end_date">{{{__ "end_date"}}}</label>
     <input type="date" name="end_date" value="{{product.end_date}}" placeholder="dd-mm-yyyy" class="form-control" id="end_date">
   </div>
-   <div class="form-group mb-2">
+  
+   {{!-- <div class="form-group mb-2">
     <label for="">{{{__ "status"}}}</label><br>
     <input type="radio" id="active" name="status" value="{{product.status}}">
     <label for="active">Active</label><br>
      <input type="radio" id="deactive" name="status" value="{{product.status}}">
      <label for="deactive">DeActive</label>
- </div>
+ </div> --}}
   <button type="submit" class="btn btn-primary mb-2">{{{__ "upro"}}}</button>
 </form>
 </html>

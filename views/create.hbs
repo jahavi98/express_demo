@@ -30,14 +30,14 @@
     </nav>
 <br>
 <h4>{{{__ "cruser"}}}</h4>
-{{!-- <a class="btn btn-primary" href="/">{{{__ "aluser"}}}</a>
-<br> --}}
+<a class="btn btn-primary" href="/users">{{{__ "aluser"}}}</a>
+<br>
 <br>
 {{#if errors}}
-    {{#each errors}}
-          <p class="alert alert-danger">{{errors.msg}}</p>
-    {{/each}}
-{{/if}}
+        {{#each errors}}
+            <div class="alert alert-danger">{{msg}}</div>
+        {{/each}}
+    {{/if}}
 <form action="/users/create" method="POST">
   <div class="form-group mb-2">
     <label for="name">{{{__ "name"}}}</label>

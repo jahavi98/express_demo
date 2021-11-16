@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 
 router.get('/', validatelogin, allUser);
 router.get('/create',userForm);
-router.post('/create',validateuser, result, saveUser);
+router.post('/create',validateuser, saveUser);
 router.get('/edit/:id', validatelogin, editUser);
 router.post('/update/:id', validatelogin, updateUser);
 router.get('/delete/:id', validatelogin, deleteUser);

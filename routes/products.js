@@ -8,7 +8,7 @@ const {validateproduct,result} = require('../controllers/productValidation');
 
 router.get('/', validatelogin, allProduct);
 router.get('/pcreate', validatelogin, productForm);
-router.post('/pcreate' ,validatelogin, validateproduct, result, saveProduct);
+router.post('/pcreate' ,validatelogin, validateproduct, saveProduct);
 router.get('/pedit/:id', validatelogin, editProduct);
 router.post('/update/:id', validatelogin, updateProduct);
 router.get('/delete/:id', validatelogin, deleteProduct);
