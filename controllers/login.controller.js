@@ -8,7 +8,7 @@ const session = require('express-session');
 
 const validatelogin = async (req,res,next) => {
     let userdata = req.session.userdata;
-    console.log("sessiondata",req.session.userdat)
+    console.log("sessiondata",req.session.userdata)
     if(userdata && userdata.id  && userdata.expires > userdata.set)
     { 
         console.log("udata",userdata)

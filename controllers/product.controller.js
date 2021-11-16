@@ -49,7 +49,7 @@ console.log("files",req.files)
 
 let targetFile = req.files.image;
 let extName = path.extname(targetFile.name);
-let baseName = path.basename(targetFile.name + extName);
+let baseName = path.basename(targetFile.name,extName);
 let uploadDir = path.join(__dirname, '../public/images/', targetFile.name);
 
 console.log("extname",extName)
