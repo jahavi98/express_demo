@@ -4,46 +4,32 @@
     <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
 </head>
-<div class="bs-example">
+ <div class="bs-example">
     <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a href="#" class="navbar-brand">Management System</a>
+        <a href="#" class="navbar-brand">{{__ "manasys"}}</a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>
-
+ 
         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
             <div class="navbar-nav">
-                <a href="#" class="nav-item nav-link active">Home</a>
-                 {{!-- <div class="navbar-nav">
-                <a href="/users/create" class="nav-item nav-link">Create</a>
-            </div> --}}
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Action</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{__ "act"}}</a>
                     <div class="dropdown-menu">
-                        <a href="/users" class="dropdown-item">Users</a>
-                        <a href="/products" class="dropdown-item">Products</a>
-                        <a href="#" class="dropdown-item">Other</a>
+                        <a href="/users" class="dropdown-item">{{__ "users"}}</a>
+                        <a href="/products" class="dropdown-item">{{__ "products"}}</a>
                     </div>
                 </div>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Change Language</a>
+                  <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{__ "clang"}}</a>
                     <div class="dropdown-menu" id="google_translate_element">
                         <a href="/en" class="dropdown-item">English</a>
                         <a href="/nl" class="dropdown-item">Norway</a>
-                        <a href="#" class="dropdown-item">Other</a>
                     </div>
             </div>
             </div>
-            {{!-- <form class="form-inline">
-                <div class="input-group">                    
-                    <input type="text" class="form-control" placeholder="Search">
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-secondary"><i class="fa fa-search"></i></button>
-                    </div>
-                </div>
-            </form> --}}
             <div class="navbar-nav">
-                <a href="/logout" class="nav-item nav-link">Logout</a>
+                <a href="/logout" class="nav-item nav-link">{{__ "logout"}}</a>
             </div>
             
         </div>
@@ -53,6 +39,11 @@
 <a class="btn btn-primary" href="/products">{{{__ "allpro"}}}</a>
 <br>
 <br>
+  {{#if errors}}
+    {{#each errors}}
+          <p class="alert alert-danger">{{this.msg}}</p>
+    {{/each}}
+{{/if}}
 <form action="/products/update/{{product.id}}" method="POST" runat="server">
   <div class="form-group mb-2">
     <label for="name">{{{__ "pname"}}}</label>
@@ -64,19 +55,40 @@
   </div>
    <div class="form-group mb-2">
     <label for="description">{{{__ "desc"}}}</label>
-    <input type="text" name="description" value="{{product.description}}" class="form-control" id="description">
-  </div>
-   {{!-- <div class="form-group mb-2">
-    <label for="description">{{{__ "desc"}}}</label>
-    <textarea  name="description" class="form-control" value="{{product.description}}" id="description"> </textarea>
-    <script>
-    new FroalaEditor('textarea');
-    </script> --}}
+    <input type="text" id="description" name="description" value="{{product.description}}" class="form-control">
+     {{!-- <textarea type="text" id="description" name="description" value="{{product.description}}" class="form-control" ></textarea>
+      <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+     <script>
+       tinymce.init({
+       selector: "textarea#description",
+       skin: "bootstrap",
+       plugins: "lists, link, image, media",
+       toolbar:
+       "h1 h2 bold italic strikethrough blockquote bullist numlist backcolor | link image media | removeformat help",
+        menubar: false,
+  setup: (description) => {
+    // Apply the focus effect
+    description.on("init", () => {
+      description.getContainer().style.transition =
+        "border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out";
+    });
+    description.on("focus", () => {
+      (description.getContainer().style.boxShadow =
+        "0 0 0 .2rem rgba(0, 123, 255, .25)"),
+        (description.getContainer().style.borderColor = "#80bdff");
+    });
+   description.on("blur", () => {
+      (description.getContainer().style.boxShadow = ""),
+        (description.getContainer().style.borderColor = "");
+    });
+  },
+});
+     </script> --}}
   </div>
    <div class="form-group mb-2">
     <label for="image">{{{__ "pimg"}}}</label>
     <input type="file" name="image" value="{{product.image}}" class="form-control" id="image">
-    <img id="blah" src="{{product.image}}" alt="your image" />
+    {{!-- <img id="blah" src="{{product.image}}" alt="your image" />
     <br>
     <a class="btn btn-primary" href="#" onclick="myFunction()">Remove</a>
     <script>
@@ -91,7 +103,7 @@ function myFunction() {
   var myobj = document.getElementById("blah");
   myobj.remove();
 }
-    </script>
+    </script> --}}
   </div>
     <div class="form-group mb-2">
   <label for="category">{{{__ "category"}}}</label>

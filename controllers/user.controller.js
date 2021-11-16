@@ -1,6 +1,5 @@
 const models = require("../models");
 const Users = models.Users;
-const {check, validationResult} = require('express-validator');
 const bcrypt = require('bcryptjs');
 const CsvParser = require("json2csv").Parser;
 var csrf = require('csurf');
@@ -18,56 +17,40 @@ const allUser = async (req,res) => {
 }
 
 const userForm = async (req,res) => {
-    await res.render('create');
+    await res.render('create',{title:'user registration page',errors:''});
 }
 
 const saveUser = async (req,res) => {
  let {name,username,password} = req.body;
-   check('name','Name is required')
-   .notEmpty(),
-   check('username', 'This username must me 3+ characters long')
-        .exists()
-         .notEmpty()
-        .isLength({ min: 3 }),
-        check('password', 'Password length should be 8 to 10 characters')
-           .isLength({ min: 8, max: 10 })
+ try{
+  const user = await Users.findOne({
+
+      where: {
+          username: username ,
+          is_selected:0
+      }
+    })
+    if(user)
+    {
+      const errors = [{
+      
+        msg: 'This Username is already exist',
         
-    const errors = validationResult(req)
-    if(!errors.isEmpty()) {
-        // return res.status(422).jsonp(errors.array())
-        const alert = errors.array()
-        res.render('create', {
-            alert
-        })
-    }
-// let name = req.body;
-// let username = req.body;
-// let password = req.body;
- 
-//    check('name', 'Name is required').notEmpty();
-//    check('username', 'Username is required').notEmpty();
-//    check('password','Password length should be 8 to 10 characters').isLength({min :8, max: 10});
-
-//    var errors = validationResult(req);
-//    if(errors){
-//       req.session.errors = errors;
-//       req.session.success = false;
-//       res.redirect('/');
-//    }
-//    else{
-//       req.session.success = true;
-//       res.redirect('/users');
-//    }
-
+      }]
+      return  res.render('users',{title:'my reg page',errors:errors})
+     }
+    else{
 password = bcrypt.hashSync(password, 10);
-
-const test = await Users.create({
-    name,username,password
-}).catch(error=>console.log(error));
-console.log(test)
-await res.redirect('/users');
+const test = await Users.create({name,username,password});
 }
-
+ }
+ catch(error)
+ {
+     console.log(error)
+     return res.status(500).json(error)
+ }   
+ }
+ 
 const editUser = async (req,res) => {
     const {id} = await req.params;
 const user = await Users.findOne({
@@ -76,7 +59,7 @@ const user = await Users.findOne({
     },
      raw:true
 }).catch(error=>console.log(error));
-    res.render('edit',{user});
+    res.render('edit',{errors:'',user});
 }
 
 const updateUser = async (req,res) => {

@@ -25,5 +25,13 @@
     "upuser": "oppdatere bruker",
     "cruser": "Opprett bruker",
     "louser": "innloggingsbruker",
-    "aluser": "Alle brukere"
+    "aluser": "Alle brukere",
+
+    "manasys": "Styringssystem",
+    "users": "Brukere",
+    "products": "Produkter",
+    "logout": "Logg ut",
+    "clang": "Skifte språk",
+    "create": "Skape",
+    "login": "Logg Inn"
 }

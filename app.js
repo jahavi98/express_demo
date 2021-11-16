@@ -7,7 +7,7 @@ var logger = require('morgan');
 const session = require('express-session');
 const fileUpload = require('express-fileupload');
 const i18n = require('i18n');
-const expressValidator = require('express-validator');
+const { body,validationResult }=require('express-validator');
 var moment = require('moment-timezone');
 const  jwt  =  require('jsonwebtoken');
 
@@ -107,7 +107,6 @@ app.use('/products',productsRouter);
 app.use(function (req, res, next) {
   res.status(404).send("Sorry can't find that!");
 });
-
 
 
 // catch 404 and forward to error handler
