@@ -26,14 +26,12 @@
 <div class="row justify-content-md-center" style="margin-top: 100px">
     <div class="col-md-6">
 
-     {{#if errors}}
-    {{#each errors}}
-          <p class="alert alert-danger">{{errors.msg}}</p>
-    {{/each}}
+   {{#if errors}}
+        {{#each errors}}
+            <div class="alert alert-danger">{{msg}}</div>
+        {{/each}}
     {{/if}}
-
         <form method="POST" action="/">
-          <input type="hidden" name="_csrf" value="{{csrfToken}}">
             <div class="form-group mb-2">
     <label for="username">{{{__ "uname"}}}</label>
     <input type="text" name="username" class="form-control" id="username" placeholder="username">

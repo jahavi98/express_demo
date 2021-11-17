@@ -2,11 +2,10 @@ const models = require("../models");
 const Users = models.Users;
 const jwt = require('jsonwebtoken');
 const accessTokenSecret = 'youraccesstokensecret';
-const { check, validationResult } = require('express-validator');
+const {body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
-const csrf = require('csurf');
-const csrfprotect=csrf({cookie:true});
+
 
 
 const validatelogin = async (req,res,next) => {
@@ -31,12 +30,19 @@ const login = async (req,res,next) => {
     {
         next();
     }
-    await res.render('login');
+    await res.render('login',{errors:''});
 }
 
 
 const loginUser = async (req,res) => {
      console.log("hello",req.body)
+     const errors = validationResult(req)
+     console.log(errors)
+     if(!errors.isEmpty())
+     {
+      return  res.render('login',{errors:errors['errors']})
+      
+     }
     const {username} = req.body;
     const user = Users.findOne({
         where: {
