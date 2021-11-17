@@ -5,6 +5,9 @@ const accessTokenSecret = 'youraccesstokensecret';
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
+const csrf = require('csurf');
+const csrfprotect=csrf({cookie:true});
+
 
 const validatelogin = async (req,res,next) => {
     let userdata = req.session.userdata;
@@ -60,7 +63,7 @@ const loginUser = async (req,res) => {
         
         {
         req.session.userdata = userdata;
-         res. redirect('/users');
+         res.redirect('/users');
         }
               }       
               }

@@ -15,8 +15,7 @@ exports.login = (req, res) => {
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
-
-      var passwordIsValid = bcrypt.compareSync(
+       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
         user.password
       );
@@ -56,10 +55,14 @@ exports.create = (req, res) => {
   const user = {
     name: req.body.name,
     username: req.body.username,
-    password: req.body.password ? req.body.password : false
-  };
+    password: req.body.password,
+  }
 
   // Save User in the database
+  // exports.save = async (req,res,next) => {
+  // const salt = await bcrypt.genSalt(10)
+  // const hashedPassword = await bcrypt.hashSync(this.password, salt)
+  // this.password = hashedPassword;
   Users.create(user)
     .then(data => {
       res.send(data);
@@ -70,15 +73,20 @@ exports.create = (req, res) => {
           err.message || "Some error occurred while creating the User."
       });
     });
-};
+}
+// }
 
 // Retrieve all Users from the database.
 exports.findAll = (req, res) => {
   const name = req.query.name;
-  var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
+  // var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
 
-  Users.findAll({ where: condition })
-    .then(data => {
+  Users.findAll({
+    where: {
+      is_selected:0
+     },
+    raw:true
+}).then(data => {
       res.send(data);
       
     })
@@ -140,8 +148,12 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Users.destroy({
-    where: { id: id }
+  Users.update({
+    is_selected:1
+  }, {
+    where: {
+      id: id
+    }
   })
     .then(id => {
       if (id == 1) {

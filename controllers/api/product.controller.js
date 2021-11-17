@@ -40,10 +40,14 @@ exports.create = (req, res) => {
 // Retrieve all Products from the database.
 exports.findAll = (req, res) => {
   const name = req.query.name;
-  var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
+  // var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
 
-  Products.findAll({ where: condition })
-    .then(data => {
+  Products.findAll({
+    where: {
+      is_deleted:0
+     },
+      raw:true
+  }).then(data => {
       res.send(data);
     })
     .catch(err => {
@@ -104,8 +108,12 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Products.destroy({
-    where: { id: id }
+  Products.update({
+    is_deleted:1
+  }, {
+    where: {
+      id: id
+    }
   })
     .then(id => {
       if (id == 1) {

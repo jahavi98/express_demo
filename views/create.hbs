@@ -39,6 +39,7 @@
         {{/each}}
     {{/if}}
 <form action="/users/create" method="POST">
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
   <div class="form-group mb-2">
     <label for="name">{{{__ "name"}}}</label>
     <input type="text" name="name" class="form-control" id="name">

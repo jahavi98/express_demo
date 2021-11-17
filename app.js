@@ -10,6 +10,9 @@ const i18n = require('i18n');
 const { body,validationResult }=require('express-validator');
 var moment = require('moment-timezone');
 const  jwt  =  require('jsonwebtoken');
+const csrf = require('csurf');
+const csrfprotect=csrf({cookie:true});
+
 
 var uapiRouter = require('./routes/api/user.routes');
 var papiRouter = require('./routes/api/product.routes');
@@ -18,7 +21,6 @@ var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var productsRouter = require('./routes/products');
 const { cookie } = require('express-validator');
-
 var app = express();
 
 // view engine setup
