@@ -40,7 +40,7 @@ const loginUser = async (req,res) => {
      console.log(errors)
      if(!errors.isEmpty())
      {
-      return  res.render('login',{errors:errors['errors']})
+      return  res.render('login',{errors:errors['errors'],token:req.body._csrf})
       
      }
     const {username} = req.body;

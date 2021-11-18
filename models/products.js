@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     status:DataTypes.STRING,
     start_date:DataTypes.DATE,
     end_date:DataTypes.DATE,
+    imgconvert:DataTypes.STRING,
     is_deleted:DataTypes.INTEGER
   }, {
     sequelize,

@@ -12,7 +12,7 @@ var moment = require('moment-timezone');
 const  jwt  =  require('jsonwebtoken');
 const csrf = require('csurf');
 const csrfprotect=csrf({cookie:true});
-
+const nodemailer = require('nodemailer');
 
 var uapiRouter = require('./routes/api/user.routes');
 var papiRouter = require('./routes/api/product.routes');
@@ -77,12 +77,11 @@ app.get('/home', indexRouter);
 
 app.get('/nl', function (req, res) {
   res.cookie('locale', 'no', { maxAge: 900000, httpOnly: true },
-  moment.tz.setDefault("Europe/Oslo"));
+  'moment.tz.setDefault("Europe/Oslo")');
   res.redirect('/');
 });
 app.get('/en', function (req, res) {
-  res.cookie('locale', 'en', { maxAge: 900000 , httpOnly: true },
-  moment.tz.setDefault("Asia/kolkata"));
+  res.cookie('locale', 'en', { maxAge: 900000 , httpOnly: true });
   res.redirect('/');
 });
 

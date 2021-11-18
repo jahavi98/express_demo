@@ -39,10 +39,14 @@
         {{/each}}
     {{/if}}
 <form action="/users/create" method="POST">
-  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+  <input type="hidden" name="_csrf" value="{{token}}">
   <div class="form-group mb-2">
     <label for="name">{{{__ "name"}}}</label>
     <input type="text" name="name" class="form-control" id="name">
+  </div>
+    <div class="form-group mb-2">
+    <label for="email">{{{__ "email"}}}</label>
+    <input type="email" name="to" class="form-control" id="email">
   </div>
   <div class="form-group mb-2">
     <label for="username">{{{__ "uname"}}}</label>

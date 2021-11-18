@@ -4,10 +4,11 @@ const { validatelogin } = require('../controllers/login.controller');
 var router = express.Router();
 var {allProduct,productForm, saveProduct, editProduct, updateProduct, deleteProduct, download, xlsx} = require('../controllers/product.controller');
 const {validateproduct,result} = require('../controllers/productValidation');
-
+const csrf = require('csurf')
+const csrfprotect=csrf({cookie:true})
 
 router.get('/', validatelogin, allProduct);
-router.get('/pcreate', validatelogin, productForm);
+router.get('/pcreate', validatelogin, csrfprotect, productForm);
 router.post('/pcreate' ,validatelogin, validateproduct, saveProduct);
 router.get('/pedit/:id', validatelogin, editProduct);
 router.post('/update/:id', validatelogin, updateProduct);
