@@ -57,8 +57,14 @@ function myFunction() {
   </div>
    <div class="form-group mb-2">
     <label for="price">{{{__ "price"}}}</label>
-    <input type="text" name="price" value="{{product.price}}" class="form-control" id="price">
-  </div>
+    <input type="text" name="price" value="{{product.price}}" onkeyup="calc(form)" onchange="calc(form)" class="form-control" id="price">
+       <script>
+           function calc(form) {
+               const num = form.price.value
+               const with2Decimals = num.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]
+               price.value = with2Decimals
+           }
+       </script>  </div>
   <div class="form-group mb-2">
     <label for="start_date">{{{__ "strat_date"}}}</label>
     <input type="date" name="start_date" value="{{product.start_date}}" placeholder="dd-mm-yyyy" class="form-control" id="start_date">

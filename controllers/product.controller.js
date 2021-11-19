@@ -10,6 +10,7 @@ const excel = require("exceljs");
 const moment = require('moment');
 const { __ } = require("i18n");
 const {where} = require("sequelize");
+const {roundTo, roundToUp, roundToDown} = 'round-to';
 
 
 //all product home page
@@ -116,7 +117,7 @@ const saveProduct = async (req,res) => {
 
 //all data save in database
 const test = await Products.create({
-    name,pnumber,description,imgconvert,image,category,price,start_date,end_date,status
+  name,pnumber,description,imgconvert,image,category,price,start_date,end_date,status
 }).catch(error=>console.log(error));
 console.log(test)
 await res.redirect('/products');
