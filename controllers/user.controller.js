@@ -81,6 +81,7 @@ const transporter = nodemailer.createTransport({
 });
 
 let {name,username,password,to} = req.body;
+
 const mailData = {
   from: '"Management" <jahnavi.bhagat.hs@gmail.com>',
   to: req.body.to,

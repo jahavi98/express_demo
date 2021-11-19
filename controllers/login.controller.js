@@ -6,11 +6,9 @@ const {body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
 
-
-
+//validate login page
 const validatelogin = async (req,res,next) => {
     let userdata = req.session.userdata;
-    console.log("sessiondata",req.session.userdata)
     if(userdata && userdata.id  && userdata.expires > userdata.set)
     { 
         console.log("udata",userdata)
@@ -23,6 +21,7 @@ const validatelogin = async (req,res,next) => {
     }
 }
 
+//user login route
 const login = async (req,res,next) => {
     let userdata = req.session.userdata;
     console.log("sessiondata",req.session.userdata)
@@ -33,7 +32,7 @@ const login = async (req,res,next) => {
     await res.render('login',{errors:''});
 }
 
-
+//login user save & validate
 const loginUser = async (req,res) => {
      console.log("hello",req.body)
      const errors = validationResult(req)
@@ -75,11 +74,12 @@ const loginUser = async (req,res) => {
               }
 });
 }
+
+//session logout
 const logout = async(req,res) => {
    req.session.destroy()
    return res.redirect('/')
   }
-  
 
 module.exports = {
      loginUser, login , validatelogin, logout

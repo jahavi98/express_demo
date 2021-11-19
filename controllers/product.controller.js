@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const CsvParser = require("json2csv").Parser;
 const excel = require("exceljs");
-var moment = require('moment');
+const moment = require('moment');
 const { __ } = require("i18n");
 const {where} = require("sequelize");
 
@@ -29,11 +29,10 @@ const productForm = async (req,res) => {
     await res.render('pcreate',{errors:'',token:req.csrfToken()});
 }
 
-
 //created product data save into database
 const saveProduct = async (req,res) => {
 
-  //validation error
+    //validation error
   const errors = validationResult(req)
   console.log(errors)
   if(!errors.isEmpty())
@@ -43,64 +42,77 @@ const saveProduct = async (req,res) => {
 
   //save product data
  let {name,pnumber,description,imgconvert,image,category,price,start_date,end_date,status} = await req.body;
+  const product = await Products.update({
+    is_deleted: 1,
+    pnumber: 'DEL_' + pnumber
+  }, {
+    where: {
+      pnumber: pnumber
+    }
+  }).then(function (product) {
+    res.redirect('/products');
+  });
 
- if (!req.files || Object.keys(req.files).length === 0) {
-  return res.status(400).send('No files were uploaded.');
-}
-console.log("files",req.files)
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+  console.log("files", req.files)
 
-let targetFile = req.files.image;
-let extName = path.extname(targetFile.name);
-let baseName = path.basename(targetFile.name,extName);
-let uploadDir = path.join(__dirname, '../public/images/', targetFile.name);
-let upload = path.join(__dirname, '../public/tmp/', targetFile.name);
+  let targetFile = req.files.image;
+  let extName = path.extname(targetFile.name);
+  let baseName = path.basename(targetFile.name, extName);
+  let uploadDir = path.join(__dirname, '../public/images/', targetFile.name);
+  let upload = path.join(__dirname, '../public/tmp/', targetFile.name);
 
-console.log("extname",extName)
-console.log("baseName",baseName)
-console.log("uploadDir",uploadDir)
-console.log("upload",upload)
+  console.log("extname", extName)
+  console.log("baseName", baseName)
+  console.log("uploadDir", uploadDir)
+  console.log("upload", upload)
 
-let imgList = ['.png','.jpg','.jpeg','.gif'];
+  let imgList = ['.png', '.jpg', '.jpeg', '.gif'];
 
 // Checking the file type
-if(!imgList.includes(extName)){
-  fs.unlinkSync(targetFile.tempFilePath);
-  return res.status(422).send("Invalid Image");
-}
-
-if(targetFile.size > 1048576){
-  fs.unlinkSync(targetFile.tempFilePath);
-  console.log("target file",targetfile.size)
-  return res.status(413).send("File is too Large");
-}
-//save original image in public/images
-targetFile.mv(uploadDir, (err) => {
-  if (err) {
-    console.log("targetfile err", err)
-    return res.status(500).send(err);
+  if (!imgList.includes(extName)) {
+    fs.unlinkSync(targetFile.tempFilePath);
+    return res.status(422).send("Invalid Image");
   }
-});
 
-image = baseName + extName;
-console.log("+++++++++++++++++++++", image)
+  if (targetFile.size > 1048576) {
+    fs.unlinkSync(targetFile.tempFilePath);
+    console.log("target file", targetfile.size)
+    return res.status(413).send("File is too Large");
+  }
+//save original image in public/images
+  targetFile.mv(uploadDir, (err) => {
+    if (err) {
+      console.log("targetfile err", err)
+      return res.status(500).send(err);
+    }
+  });
+
+//save image name in database
+  image = baseName + extName;
+  console.log("+++++++++++++++++++++", image)
 
 //for replace file name & store in folder public/tmp
-let timestamp = new Date().getTime();
-upload = upload.replace(baseName,timestamp);
-console.log("new upload",upload)
+  let timestamp = new Date().getTime();
+  upload = upload.replace(baseName, timestamp);
+  console.log("new upload", upload)
 
 //for new name file store
-let convert = timestamp + extName;
-console.log(imgconvert)
+  let convert = timestamp + extName;
+  console.log(imgconvert)
 
-targetFile.mv(upload, (err) => {
-  if (err) {
-    console.log("targetfile err", err)
-    return res.status(500).send(err);
-  }
-});
+  targetFile.mv(upload, (err) => {
+    if (err) {
+      console.log("targetfile err", err)
+      return res.status(500).send(err);
+    }
+  });
 
-imgconvert = convert;
+//save imgconvert name in the database
+  imgconvert = convert;
+  console.log("************", imgconvert)
 
 //all data save in database
 const test = await Products.create({
@@ -110,8 +122,6 @@ console.log(test)
 await res.redirect('/products');
    
 }
-
-
 
 //edit product page data
 const editProduct = async (req,res) => {
@@ -124,7 +134,6 @@ const product = await Products.findOne({
 }).catch(error=>console.log(error));
     res.render('pedit',{product});
 }
-
 
 //update edited data into the database
 const updateProduct = async (req,res) => {
@@ -164,11 +173,6 @@ const deleteProduct = async (req,res) => {
 
 //csv data download
   const download = (req, res) => {
-    const date_1 = "DD-MM-YYYY";
- 
-        start_date = moment().format(date_1);
-        console.log("date",start_date)
-        end_date = moment().format(date_1);
 
     Products.findAll().then((objs) => {
       let product = [];

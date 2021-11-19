@@ -78,11 +78,11 @@ app.get('/home', indexRouter);
 app.get('/nl', function (req, res) {
   res.cookie('locale', 'no', { maxAge: 900000, httpOnly: true },
   'moment.tz.setDefault("Europe/Oslo")');
-  res.redirect('/');
+  res.redirect('/home');
 });
 app.get('/en', function (req, res) {
   res.cookie('locale', 'en', { maxAge: 900000 , httpOnly: true });
-  res.redirect('/');
+  res.redirect('/home');
 });
 
 app.get('/api', (req,res) => {
