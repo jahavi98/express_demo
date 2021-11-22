@@ -26,14 +26,16 @@ const categoryForm = async (req,res) => {
     const category = await Category.findAll({
       raw:true,
     });
+    console.log("***************",category)
     res.render('ccreate',{category:category,errors:'',token:req.csrfToken()});
 }
 
 //created product data save into database
 const saveCategory = async (req,res) => {
-
+ console.log("%%%%%%%%%%%%",req.body)
     //save product data
-    let {category, status, image, parent_id} = await req.body;
+    let {category, status, image} = await req.body;
+    const{parent_id} = req.body;
 
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send('No files were uploaded.');
@@ -76,10 +78,9 @@ const saveCategory = async (req,res) => {
 
 
 //all data save in database
-    const test = await Category.create({
+    Category.create({
       category,status,image,parent_id
     }).catch(error => console.log(error));
-    console.log(test)
     await res.redirect('/category');
 }
 
@@ -93,7 +94,10 @@ const editCategory = async (req,res) => {
         },
         raw:true
     }).catch(error=>console.log(error));
-    res.render('cedit',{category});
+    const allcategory = await Category.findAll({
+        raw:true,
+    });
+    res.render('cedit',{category,allcategory});
 }
 
 //update edited data into the database

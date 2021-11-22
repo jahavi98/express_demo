@@ -22,7 +22,6 @@ const allProduct = async (req,res) => {
     }).catch(error=>console.log(error));
     await res.render('phome',{data});
 }
-
 //new product created
 const productForm = async (req,res) => {
     const category = await Category.findAll({
