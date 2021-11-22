@@ -34,5 +34,7 @@
     "clang": "Skifte språk",
     "create": "Skape",
     "login": "Logg Inn",
-    "email": "e-post"
+    "email": "e-post",
+    "category": "kategori",
+    "subcategory": "underkategori"
 }

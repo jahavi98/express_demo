@@ -29,8 +29,8 @@
   </div>
     <div class="form-group mb-2">
         <label for="image">{{{__ "pimg"}}}</label>
-        <input type="file" name="image" class="form-control" value={{product.image}} id="image">
-       <img id="blah" src="/images/{{product.image}}" alt="{{this.image}}" />
+        <input type="file" name="image" value="" class="form-control" id="image">
+       <img id="blah" src="/images/{{product.image}}"  />
       <br>
       <a class="btn btn-primary" href="#" onclick="myFunction()">Remove</a>
       <script>
@@ -73,14 +73,13 @@ function myFunction() {
     <label for="end_date">{{{__ "end_date"}}}</label>
     <input type="date" name="end_date" value="{{product.end_date}}" placeholder="dd-mm-yyyy" class="form-control" id="end_date">
   </div>
-  
-   {{!-- <div class="form-group mb-2">
+    <div class="form-group mb-2">
     <label for="">{{{__ "status"}}}</label><br>
-    <input type="radio" id="active" name="status" value="{{product.status}}">
+    <input type="radio" id="active" name="status" value="active">
     <label for="active">Active</label><br>
-     <input type="radio" id="deactive" name="status" value="{{product.status}}">
+     <input type="radio" id="deactive" name="status" value="deactive">
      <label for="deactive">DeActive</label>
- </div> --}}
+ </div>
   <button type="submit" class="btn btn-primary mb-2">{{{__ "upro"}}}</button>
 </form>
 </html>

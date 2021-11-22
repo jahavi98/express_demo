@@ -64,13 +64,11 @@
   </div>
   <div class="form-group mb-2">
   <label for="category">{{{__ "category"}}}</label>
-  <select class="form-select" name="category" id="category" aria-label="Default select example">
-  <option selected>Open this select menu</option>
-  <option value="shoe">Shoe</option>
-  <option value="food">Food</option>
-  <option value="Clothes">Clothes</option>
-  <option value="Other Category">Other Category</option>
-</select>
+      <select multiple  id="category" name="categoty" class="form-control">
+          {{#each category}}
+              <option value="{{category}}">{{category}}</option>
+          {{/each}}
+      </select>
   </div>
    <div class="form-group mb-2">
     <label for="price">{{{__ "price"}}}</label>

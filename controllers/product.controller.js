@@ -1,5 +1,6 @@
 const models = require("../models");
 const Products = models.Products;
+const Category = models.Category;
 const {body, validationResult } = require('express-validator');
 const multer = require("multer");
 const fileUpload = require('express-fileupload');
@@ -10,8 +11,6 @@ const excel = require("exceljs");
 const moment = require('moment');
 const { __ } = require("i18n");
 const {where} = require("sequelize");
-const {roundTo, roundToUp, roundToDown} = 'round-to';
-
 
 //all product home page
 const allProduct = async (req,res) => {
@@ -24,10 +23,12 @@ const allProduct = async (req,res) => {
     await res.render('phome',{data});
 }
 
-
 //new product created
 const productForm = async (req,res) => {
-    await res.render('pcreate',{errors:'',token:req.csrfToken()});
+    const category = await Category.findAll({
+        raw:true,
+    });
+    await res.render('pcreate',{category:category,errors:'',token:req.csrfToken()});
 }
 
 //created product data save into database

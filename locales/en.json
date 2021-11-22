@@ -34,7 +34,9 @@
     "clang": "Change Language",
     "create": "Create",
     "login": "Login",
-    "email": "Email"
+    "email": "Email",
+    "category": "Category",
+    "subcategory": "SubCategory"
     
 
 }

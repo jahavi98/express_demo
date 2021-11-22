@@ -20,6 +20,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var productsRouter = require('./routes/products');
+var categoryRouter = require('./routes/category');
+
 const { cookie } = require('express-validator');
 var app = express();
 
@@ -105,6 +107,7 @@ app.use('/api/users',uapiRouter);
 app.use('/', loginRouter);
 app.use('/users', usersRouter);
 app.use('/products',productsRouter);
+app.use('/category',categoryRouter);
 app.use(function (req, res, next) {
   res.status(404).send("Sorry can't find that!");
 });

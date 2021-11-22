@@ -1,0 +1,61 @@
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
+</head>
+<br>
+<h4>{{{__ "epro"}}}</h4>
+<a class="btn btn-primary" href="/category">{{{__ "allpro"}}}</a>
+<br>
+<br>
+{{#if errors}}
+    {{#each errors}}
+        <p class="alert alert-danger">{{this.msg}}</p>
+    {{/each}}
+{{/if}}
+<form action="/category/update/{{category.id}}" method="POST" >
+    <div class="form-group mb-2">
+        <label for="category">{{{__ "category"}}}</label>
+        <input type="text" name="category" value="{{category.category}}" class="form-control" id="category">
+    </div>
+    <div class="form-group mb-2">
+   <label for="">{{{__ "status"}}}</label><br>
+   <input type="radio" id="active" name="status" value="active">
+   <label for="active">Active</label><br>
+    <input type="radio" id="deactive" name="status" value="deactive">
+    <label for="deactive">DeActive</label>
+</div>
+    <div class="form-group mb-2">
+        <label for="image">{{{__ "pimg"}}}</label>
+        <input type="file" name="image" value="" class="form-control" id="image">
+        <img id="blah" src="/images/{{category.image}}"/>
+        <br>
+        <a class="btn btn-primary" href="#" onclick="myFunction()">Remove</a>
+        <script>
+            image.onchange = evt => {
+                const [file] = image.files
+                if (file) {
+                    blah.src = URL.createObjectURL(file)
+                }
+            }
+            function myFunction() {
+                var myobj = document.getElementById("blah");
+                myobj.remove();
+            }
+        </script>
+    </div>
+    <div class="form-group mb-2">
+        <input type="radio" id="category" name="parent_id" value="null">
+        <label>Parent_id</label><br>
+        <label for="category" >Sub-Category</label>
+        <select multiple name="parent_id" id="category" value="{{category.parent_id}}" class="form-control">
+            {{#each category}}
+                <option value="{{category.id}}">{{category}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary mb-2">{{{__ "upro"}}}</button>
+</form>
+</html>

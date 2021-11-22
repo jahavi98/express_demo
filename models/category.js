@@ -11,15 +11,19 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      //models.Category.belongsToMany(models.Products, { as: 'subcategory' });
     }
   };
   Category.init({
-    name: DataTypes.STRING,
+    parent_id: DataTypes.INTEGER,
+    category: DataTypes.STRING,
     status: DataTypes.STRING,
-    cimage: DataTypes.STRING
+    image: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Category',
   });
+
+
   return Category;
 };

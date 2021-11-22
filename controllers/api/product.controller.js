@@ -4,6 +4,7 @@ const Op = models.Sequelize.Op;
 
 // Create and Save a new product
 exports.create = (req, res) => {
+
   if (!req.body.name) {
     res.status(400).send({
       message: "Content can not be empty!"

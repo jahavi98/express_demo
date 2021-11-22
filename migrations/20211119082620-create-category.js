@@ -8,14 +8,17 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      parent_id: {
+        type: Sequelize.INTEGER
+      },
+      category: {
         type: Sequelize.STRING,
         allowNull:false
       },
       status: {
         type: Sequelize.STRING
       },
-      cimage: {
+      image: {
         type: Sequelize.STRING
       },
       createdAt: {
