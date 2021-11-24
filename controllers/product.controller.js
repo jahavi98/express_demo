@@ -24,6 +24,7 @@ const allProduct = async (req,res) => {
     }).catch(error=>console.log(error));
     await res.render('phome',{data});
 }
+
 //new product created
 const productForm = async (req,res) => {
     const category = await Category.findAll({
@@ -56,6 +57,7 @@ const saveProduct = async (req,res) => {
             end_date,
             status
         } = await req.body;
+
         const product = await Products.update({
             is_deleted: 1,
             pnumber: 'DEL_' + pnumber

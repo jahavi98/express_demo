@@ -3,6 +3,7 @@ const {body,validationResult} = require('express-validator');
 exports.validateuser = [
     body('name','Name should be required').notEmpty(),
     body('username','UserName should be Unique').notEmpty(),
+    body('email','Email should be required').notEmpty(),
     body('password','Password should be more than 5 character').isLength({min:5}),
 ]
 
