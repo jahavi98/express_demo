@@ -41,5 +41,7 @@
     "updatecat": "oppdateringskategori",
     "editcat": "rediger kategori",
     "category": "kategori",
-    "subcategory": "underkategori"
+    "subcategory": "underkategori",
+    "home": "hjem",
+    "download": "nedlasting"
 }

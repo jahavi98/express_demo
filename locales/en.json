@@ -38,5 +38,7 @@
 	"updatecat": "Update Category",
 	"editcat": "Edit Category",
 	"subcategory": "SubCategory",
-	"edicat": "edicat"
+	"edicat": "edicat",
+	"home": "Home",
+	"download":"Download"
 }

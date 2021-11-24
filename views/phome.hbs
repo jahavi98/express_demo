@@ -5,18 +5,19 @@
             <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" /> 
   </head>
 <body>
-            <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Download</a>
-                    <div class="dropdown-menu" id="google_translate_element">
-                        <a href="/products/download" class="dropdown-item">CSV Format</a>
-                        <a href="/products/xlsx" class="dropdown-item">XLSX Format</a>
-                        <a href="/products/pdf" class="dropdown-item">PDF Format</a>
-                    </div>
-            </div>
+
   <br>
 <h4> {{{__ "allpro"}}}</h4>
 <a class="btn btn-primary" href="/products/pcreate">{{{__ "cproduct"}}}</a>
 <br>
+  <div class="nav-item dropdown">
+      <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{{__ "download"}}}</a>
+      <div class="dropdown-menu" id="google_translate_element">
+          <a href="/products/download" class="dropdown-item">CSV Format</a>
+          <a href="/products/xlsx" class="dropdown-item">XLSX Format</a>
+          <a href="/products/pdf" class="dropdown-item">PDF Format</a>
+      </div>
+  </div>
 <br>
   {{# if errors }}
     {{# each errors }}

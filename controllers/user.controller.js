@@ -11,36 +11,6 @@ const smtpTransport = require('nodemailer-smtp-transport');
 
 //all user home page
 const allUser = async (req,res) => {
-  // console.log("############################")
- //  const transport = nodemailer.createTransport( {
- //      port: 465,
- //      host: 'smtp.gmail.com',
- //      auth: {
- //          user: 'jahnavi.bhagat.hs@gmail.com',
- //          pass: 'Jahnavi@3108',
- //      },
- //      secure: true,
- //      service:'gmail'
- //  });
- //
- //  const mailData = {
- //    from: '"Pahlavi" <jahnavi.bhagat.hs@gmail.com>',
- //    to: 'jahnavibhagat98@gmail.com',
- //    subject: 'Registration',
- //    text: 'Successfully Create'
- //  }
- // console.log("%%%%%%%%%%%%",mailData)
- //
- //    transport.sendMail(mailData,function(error, info) {
- //        console.log("innnnnnnnnnnnnnnnnnnnnnn")
- //        if (error) {
- //            console.log(error);
- //        } else {
- //
- //            console.log('Email sent: ' , info);
- //        }
- //    });
-
     const data = await Users.findAll({
         where: {
           is_selected:0

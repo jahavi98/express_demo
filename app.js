@@ -79,13 +79,13 @@ app.use(session({
 app.get('/home', indexRouter);
 
 app.get('/nl', function (req, res) {
-  res.cookie('locale', 'no', { maxAge: 900000, httpOnly: true });
-  moment.tz.setDefault("Europe/Oslo");
+  res.cookie('locale', 'no',  moment.tz.setDefault("Europe/Oslo") ,{ maxAge: 900000, httpOnly: true });
   res.redirect('back');
 });
 
 app.get('/en', function (req, res) {
-  res.cookie('locale', 'en', { maxAge: 900000 , httpOnly: true });
+  res.cookie('locale', 'en', { maxAge: 900000 , httpOnly: true },
+  moment.tz.setDefault("Asia/Kolkata"));
   res.redirect('back');
 });
 
