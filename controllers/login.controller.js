@@ -16,7 +16,6 @@ const validatelogin = async (req,res,next) => {
     }
     else
     {
-      console.log("edata",userdata)
        res.redirect('/');
     }
 }
@@ -29,7 +28,7 @@ const login = async (req,res,next) => {
     {
         next();
     }
-    await res.render('login',{errors:''});
+    await res.render('login',{errors:'',layout:false});
 }
 
 //login user save & validate
