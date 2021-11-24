@@ -18,6 +18,7 @@ const allProduct = async (req,res) => {
           raw:true,
     }).catch(error=>console.log(error));
     await res.render('chome',{data});
+    console.log("******************************",data)
 }
 
 
@@ -32,58 +33,60 @@ const categoryForm = async (req,res) => {
 
 //created product data save into database
 const saveCategory = async (req,res) => {
- console.log("%%%%%%%%%%%%",req.body)
-    //save product data
-    let {category, status, image} = await req.body;
-    const{parent_id} = req.body;
+    if (!req.files) {
+        //save product data
+        let {category, status, image} = await req.body;
+        const {parent_id} = req.body;
 
-    if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(400).send('No files were uploaded.');
+        //all data save in database
+        Category.create({
+            category, status, image, parent_id
+        }).catch(error => console.log(error));
+        await res.redirect('/category');
     }
-    console.log("files", req.files)
+    else {
+        let {category, status, image} = await req.body;
+        const {parent_id} = req.body;
 
-    let targetFile = req.files.image;
-    let extName = path.extname(targetFile.name);
-    let baseName = path.basename(targetFile.name, extName);
-    let uploadDir = path.join(__dirname, '../public/downloads/', targetFile.name);
+        let targetFile = req.files.image;
+        let extName = path.extname(targetFile.name);
+        let baseName = path.basename(targetFile.name, extName);
+        let uploadDir = path.join(__dirname, '../public/downloads/', targetFile.name);
 
-    console.log("extname", extName)
-    console.log("baseName", baseName)
-    console.log("uploadDir", uploadDir)
+        console.log("extname", extName)
+        console.log("baseName", baseName)
+        console.log("uploadDir", uploadDir)
 
-    let imgList = ['.png', '.jpg', '.jpeg', '.gif'];
+        let imgList = ['.png', '.jpg', '.jpeg', '.gif'];
 
 // Checking the file type
-    if (!imgList.includes(extName)) {
-        fs.unlinkSync(targetFile.tempFilePath);
-        return res.status(422).send("Invalid Image");
-    }
-
-    if (targetFile.size > 1048576) {
-        fs.unlinkSync(targetFile.tempFilePath);
-        console.log("target file", targetfile.size)
-        return res.status(413).send("File is too Large");
-    }
-//save original image in public/images
-    targetFile.mv(uploadDir, (err) => {
-        if (err) {
-            console.log("targetfile err", err)
-            return res.status(500).send(err);
+        if (!imgList.includes(extName)) {
+            fs.unlinkSync(targetFile.tempFilePath);
+            return res.status(422).send("Invalid Image");
         }
-    });
+
+        if (targetFile.size > 1048576) {
+            fs.unlinkSync(targetFile.tempFilePath);
+            console.log("target file", targetfile.size)
+            return res.status(413).send("File is too Large");
+        }
+//save original image in public/images
+        targetFile.mv(uploadDir, (err) => {
+            if (err) {
+                console.log("targetfile err", err)
+                return res.status(500).send(err);
+            }
+        });
 
 //save image name in database
-    image = baseName + extName;
-    console.log("+++++++++++++++++++++", image)
-
-
-//all data save in database
-    Category.create({
-      category,status,image,parent_id
-    }).catch(error => console.log(error));
-    await res.redirect('/category');
+        image = baseName + extName;
+        console.log("+++++++++++++++++++++", image)
+        Category.create({
+            category, status, image, parent_id
+        }).catch(error => console.log(error));
+        await res.redirect('/category');
+    }
 }
-
 
 //edit product page data
 const editCategory = async (req,res) => {

@@ -30,6 +30,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', exphbs({
   extname: '.hbs',
   defaultLayout: 'main',
+  layoutsDir: __dirname + '/views/layouts/',
+  partialsDir: __dirname + '/views/partials/',
   helpers: {
     __: function() { return i18n.__.apply(this, arguments); },
     __n: function() { return i18n.__n.apply(this, arguments); }
@@ -79,12 +81,13 @@ app.get('/home', indexRouter);
 
 app.get('/nl', function (req, res) {
   res.cookie('locale', 'no', { maxAge: 900000, httpOnly: true },
-  'moment.tz.setDefault("Europe/Oslo")');
-  res.redirect('/home');
+  moment.tz.setDefault("Europe/Oslo"));
+  res.redirect('/');
 });
+
 app.get('/en', function (req, res) {
   res.cookie('locale', 'en', { maxAge: 900000 , httpOnly: true });
-  res.redirect('/home');
+  res.redirect('/');
 });
 
 app.get('/api', (req,res) => {

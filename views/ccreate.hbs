@@ -4,8 +4,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
 
 </head>
-<h4>{{{__ "cproduct"}}}</h4>
-<a class="btn btn-primary" href="/category">{{{__ "allpro"}}}</a>
+<h4>{{{__ "createcat"}}}</h4>
+<a class="btn btn-primary" href="/category">{{{__ "allcategory"}}}</a>
 <br>
 <br>
 {{#if errors}}
@@ -29,27 +29,28 @@
     </div>
     <div class="form-group mb-2">
         <label for="image">{{{__ "pimg"}}}</label>
-        <input type="file" name="image" value="" class="form-control" id="image">
+        <input type="file"  name="image" value="" class="form-control" id="image">
     </div>
     <div class="form-group mb-2">
-<!--        <input type="radio" id="category" name="parent_id" value="0">-->
-<!--        <label>Parent_id</label><br>-->
-<!--        <input type="radio" id="category" name="parent_id" value="1">-->
         <label for="category">Sub-Category</label>
         <select name="parent_id" id="category" class="form-control">
+            <option value="null">select category</option>
             {{#each category}}
-                <option value="{{id}}">{{category}}</option>
+                <option value="{{id}}"
+                for(0 parent_id 1)>
+                    <span>-</span>
+                    {{category}}</option>
             {{/each}}
         </select>
     </div>
-    <button type="submit" class="btn btn-primary mb-2">{{{__ "cproduct"}}}</button>
+    <button type="submit" class="btn btn-primary mb-2">{{{__ "createcat"}}}</button>
 </form>
 </html>
-<!--<script>-->
-<!--    Handlebars.registerHelper('for', function(from, to, incr, block) {-->
-<!--        var accum = '';-->
-<!--        for(var i = from; i < to; i += incr)-->
-<!--            accum += block.fn(i);-->
-<!--        return accum;-->
-<!--    });-->
-<!--</script>-->
+<script>
+    Handlebars.registerHelper('for', function(from, to, incr, block) {
+        var accum = '';
+        for(var i = from; i < to; i += incr)
+            accum += block.fn(i);
+        return accum;
+    });
+</script>

@@ -4,8 +4,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
 </head>
 <br>
-<h4>{{{__ "epro"}}}</h4>
-<a class="btn btn-primary" href="/category">{{{__ "allpro"}}}</a>
+<h4>{{{__ "editcat"}}}</h4>
+<a class="btn btn-primary" href="/category">{{{__ "allcategory"}}}</a>
 <br>
 <br>
 {{#if errors}}
@@ -45,19 +45,16 @@
         </script>
     </div>
     <div class="form-group mb-2">
-
         <select name="parent_id" id="category"  class="form-control">
+            <option value="null">select category</option>
             {{#each allcategory}}
-                <option value="{{id}}"
-                    {{#if (category.id)}}
-                        selected
-                    {{/if}}>
+                <option value="{{id}}">
                     {{category}}</option>
             {{/each}}
         </select>
     </div>
 
 
-    <button type="submit" class="btn btn-primary mb-2">{{{__ "upro"}}}</button>
+    <button type="submit" class="btn btn-primary mb-2">{{{__ "updatecat"}}}</button>
 </form>
 </html>

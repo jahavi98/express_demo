@@ -33,5 +33,18 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+db.products = require("./products.model.js")(sequelize, Sequelize);
+db.category = require("./category.model.js")(sequelize, Sequelize);
+
+db.products.belongsToMany(db.category, {
+    through: "product_category",
+    as: "products",
+    foreignKey: "category_id",
+});
+db.category.belongsToMany(db.products, {
+    through: "product_category",
+    as: "category",
+    foreignKey: "products_id",
+});
 
 module.exports = db;

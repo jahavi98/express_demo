@@ -98,7 +98,6 @@ Users.create({
       if (error) {
         console.log(error);
       } else {
-
         console.log('Email sent: ' , info);
       }
     })

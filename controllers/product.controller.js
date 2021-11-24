@@ -11,6 +11,8 @@ const excel = require("exceljs");
 const moment = require('moment');
 const { __ } = require("i18n");
 const {where} = require("sequelize");
+var pdf = require('html-pdf');
+
 
 //all product home page
 const allProduct = async (req,res) => {
@@ -34,94 +36,129 @@ const productForm = async (req,res) => {
 const saveProduct = async (req,res) => {
 
     //validation error
-  const errors = validationResult(req)
-  console.log(errors)
-  if(!errors.isEmpty())
-  {
-    return  res.render('pcreate',{errors:errors['errors'],token:req.body._csrf})
-  }
-
-  //save product data
- let {name,pnumber,description,imgconvert,image,category,price,start_date,end_date,status} = await req.body;
-  const product = await Products.update({
-    is_deleted: 1,
-    pnumber: 'DEL_' + pnumber
-  }, {
-    where: {
-      pnumber: pnumber
+    const errors = validationResult(req)
+    console.log(errors)
+    if (!errors.isEmpty()) {
+        return res.render('pcreate', {errors: errors['errors'], token: req.body._csrf})
     }
-  }).then(function (product) {
-    res.redirect('/products');
-  });
 
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send('No files were uploaded.');
-  }
-  console.log("files", req.files)
+    if (!req.files) {
+        //save product data
+        let {
+            name,
+            pnumber,
+            description,
+            imgconvert,
+            image,
+            category,
+            price,
+            start_date,
+            end_date,
+            status
+        } = await req.body;
+        const product = await Products.update({
+            is_deleted: 1,
+            pnumber: 'DEL_' + pnumber
+        }, {
+            where: {
+                pnumber: pnumber
+            }
+        }).then(function (product) {
+            res.redirect('/products');
+        });
 
-  let targetFile = req.files.image;
-  let extName = path.extname(targetFile.name);
-  let baseName = path.basename(targetFile.name, extName);
-  let uploadDir = path.join(__dirname, '../public/images/', targetFile.name);
-  let upload = path.join(__dirname, '../public/tmp/', targetFile.name);
+        const test = await Products.create({
+            name, pnumber, description, imgconvert, image, category, price, start_date, end_date, status
+        }).catch(error => console.log(error));
+        console.log(test)
+        await res.redirect('/products');
+    } else {
+        let {
+            name,
+            pnumber,
+            description,
+            imgconvert,
+            image,
+            category,
+            price,
+            start_date,
+            end_date,
+            status
+        } = await req.body;
+        const product = await Products.update({
+            is_deleted: 1,
+            pnumber: 'DEL_' + pnumber
+        }, {
+            where: {
+                pnumber: pnumber
+            }
+        }).then(function (product) {
+            res.redirect('/products');
+        });
 
-  console.log("extname", extName)
-  console.log("baseName", baseName)
-  console.log("uploadDir", uploadDir)
-  console.log("upload", upload)
+        let targetFile = req.files.image;
+        let extName = path.extname(targetFile.name);
+        let baseName = path.basename(targetFile.name, extName);
+        let uploadDir = path.join(__dirname, '../public/images/', targetFile.name);
+        let upload = path.join(__dirname, '../public/tmp/', targetFile.name);
 
-  let imgList = ['.png', '.jpg', '.jpeg', '.gif'];
+        console.log("extname", extName)
+        console.log("baseName", baseName)
+        console.log("uploadDir", uploadDir)
+        console.log("upload", upload)
+
+        let imgList = ['.png', '.jpg', '.jpeg', '.gif'];
 
 // Checking the file type
-  if (!imgList.includes(extName)) {
-    fs.unlinkSync(targetFile.tempFilePath);
-    return res.status(422).send("Invalid Image");
-  }
+        if (!imgList.includes(extName)) {
+            fs.unlinkSync(targetFile.tempFilePath);
+            return res.status(422).send("Invalid Image");
+        }
 
-  if (targetFile.size > 1048576) {
-    fs.unlinkSync(targetFile.tempFilePath);
-    console.log("target file", targetfile.size)
-    return res.status(413).send("File is too Large");
-  }
+        if (targetFile.size > 1048576) {
+            fs.unlinkSync(targetFile.tempFilePath);
+            console.log("target file", targetfile.size)
+            return res.status(413).send("File is too Large");
+        }
 //save original image in public/images
-  targetFile.mv(uploadDir, (err) => {
-    if (err) {
-      console.log("targetfile err", err)
-      return res.status(500).send(err);
-    }
-  });
+        targetFile.mv(uploadDir, (err) => {
+            if (err) {
+                console.log("targetfile err", err)
+                return res.status(500).send(err);
+            }
+        });
 
 //save image name in database
-  image = baseName + extName;
-  console.log("+++++++++++++++++++++", image)
+        image = baseName + extName;
+        console.log("+++++++++++++++++++++", image)
 
 //for replace file name & store in folder public/tmp
-  let timestamp = new Date().getTime();
-  upload = upload.replace(baseName, timestamp);
-  console.log("new upload", upload)
+        let timestamp = new Date().getTime();
+        upload = upload.replace(baseName, timestamp);
+        console.log("new upload", upload)
 
 //for new name file store
-  let convert = timestamp + extName;
-  console.log(imgconvert)
+        let convert = timestamp + extName;
+        console.log(imgconvert)
 
-  targetFile.mv(upload, (err) => {
-    if (err) {
-      console.log("targetfile err", err)
-      return res.status(500).send(err);
-    }
-  });
+        targetFile.mv(upload, (err) => {
+            if (err) {
+                console.log("targetfile err", err)
+                return res.status(500).send(err);
+            }
+        });
 
 //save imgconvert name in the database
-  imgconvert = convert;
-  console.log("************", imgconvert)
+        imgconvert = convert;
+        console.log("************", imgconvert)
 
 //all data save in database
-const test = await Products.create({
-  name,pnumber,description,imgconvert,image,category,price,start_date,end_date,status
-}).catch(error=>console.log(error));
-console.log(test)
-await res.redirect('/products');
-   
+        const test = await Products.create({
+            name, pnumber, description, imgconvert, image, category, price, start_date, end_date, status
+        }).catch(error => console.log(error));
+        console.log(test)
+        await res.redirect('/products');
+    }
 }
 
 //edit product page data
@@ -199,6 +236,84 @@ const deleteProduct = async (req,res) => {
     });
   };
 
+
+//pdf data format
+const exportPdf = async (req, res,next) => {
+    const product = {name:"Name", pnumber:"SKU", description:"Description", category:"Category", price:"Price", start_date:"Start_date",
+        end_date:"End_Date", status:"Status"};
+
+     let productdata = await Products.findAll({
+         where: {
+             is_deleted: 0
+         },
+        raw:true
+    })
+       let producthtml = await module.exports.preparehtml(productdata);
+        // const jsonData = JSON.parse(JSON.stringify(product));
+    let options = {
+        "height": "420mm",
+        "width": "297mm",
+    }
+        pdf.create(producthtml,options).toFile('public/pdf/product.pdf',function(err, res){
+        console.log(res.filename);
+    });
+
+    res.download('public/pdf/product.pdf', 'product.pdf', (err) => {
+        if (err) {
+            res.status(500).send({
+                message: "Could not download the file. " + err,
+            });
+        }
+    });
+        res.setHeader(
+        "Content-Type",
+        "application/pdf"
+    );
+    res.setHeader(
+        "Content-Disposition",
+        "attachment; filename=" + "products.pdf"
+    );
+
+};
+
+//prepare html table
+const preparehtml = async (productdata) => {
+    let html = '';
+    html += '<table style="border: 1px solid black">' +
+        '<thead>' +
+        '<tr>' +
+        '<th style="border: 1px solid black">Name</th>' +
+        '<th style="border: 1px solid black">SKU</th>' +
+        '<th style="border: 1px solid black">Description</th>' +
+        '<th style="border: 1px solid black">Category</th>' +
+        '<th style="border: 1px solid black">Price</th>' +
+        '<th style="border: 1px solid black">Start_date</th>' +
+        '<th style="border: 1px solid black">End_date</th>' +
+        '<th style="border: 1px solid black">Status</th>' +
+        '</tr>' +
+        '</thead>';
+
+    for(let i=0;i<productdata.length;i++)
+    {
+        let product = productdata[i];
+        html += '<tbody>' +
+            '<tr>' +
+            '<td style="border: 1px solid black">'+product.name+'</td>' +
+            '<td style="border: 1px solid black">'+product.pnumber+'</td>' +
+            '<td style="border: 1px solid black">'+product.description+'</td>' +
+            '<td style="border: 1px solid black">'+product.category+'</td>' +
+            '<td style="border: 1px solid black">'+product.price+'</td>' +
+            '<td style="border: 1px solid black">'+product.start_date+'</td>' +
+            '<td style="border: 1px solid black">'+product.end_date+'</td>' +
+            '<td style="border: 1px solid black">'+product.status+'</td>' +
+            '</tr>' +
+            '</tbody>'
+    }
+       html += '</table>';
+       return html;
+}
+
+
 //xls data format
 const xlsx = (req, res) => {
   Products.findAll().then((objs) => {
@@ -251,5 +366,5 @@ const xlsx = (req, res) => {
 };
 
 module.exports = {
-    allProduct,productForm, saveProduct, editProduct, updateProduct, deleteProduct, download, xlsx
+    allProduct,productForm, saveProduct, editProduct, updateProduct, deleteProduct, download, xlsx, exportPdf , preparehtml
 }
