@@ -11,7 +11,7 @@ const excel = require("exceljs");
 const moment = require('moment');
 const { __ } = require("i18n");
 const {where} = require("sequelize");
-var pdf = require('html-pdf');
+const pdf = require('html-pdf');
 
 
 //all product home page
@@ -28,6 +28,9 @@ const allProduct = async (req,res) => {
 //new product created
 const productForm = async (req,res) => {
     const category = await Category.findAll({
+        where:{
+            status : "active"
+            },
         raw:true,
     });
     await res.render('pcreate',{category:category,errors:'',token:req.csrfToken()});
@@ -179,6 +182,9 @@ const saveProduct = async (req,res) => {
 //edit product page data
 const editProduct = async (req,res) => {
     const allcategory = await Category.findAll({
+        where:{
+            status : "active"
+        },
         raw:true,
     });
     const {id} = await req.params;

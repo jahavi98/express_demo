@@ -20,6 +20,10 @@ const allCategory = async (req,res) => {
                 isdelete:0
             },
         raw:true,
+        // include: {
+        //     model: Products,
+        //     through: { attributes: [id] } // this will remove the rows from the join table (i.e. 'UserPubCrawl table') in the result set
+        // },
     }).catch(error=>console.log(error));
     await res.render('chome',{data});
     console.log("******************************",data)
@@ -90,10 +94,32 @@ const saveCategory = async (req,res) => {
         await res.redirect('/category');
     }
 }
+const addCategory = (Products_id, Category_id) => {
+     Category.findByPk(Category_id)
+        .then((category) => {
+            if (!category) {
+                console.log("Category not found!");
+                return null;
+            }
+            return Products.findByPk(Products_id).then((Products) => {
+                if (!Products) {
+                    console.log("Product not found!");
+                    return null;
+                }
+
+                category.addCategory(Products);
+                console.log(`>> added Product id=${Products.id} to Category id=${Category.id}`);
+                return Category;
+            });
+        })
+        .catch((err) => {
+            console.log(">> Error while adding Product to Category: ", err);
+        });
+};
 
 //edit product page data
 const editCategory = async (req,res) => {
-    const {id} = await req.params;
+    const {id} =await  req.params;
     const category = await Category.findOne({
         where : {
             id:id
@@ -143,5 +169,5 @@ const deleteProduct = async (req,res) => {
 }
 
 module.exports = {
-    allCategory, categoryForm, saveCategory, editCategory, updateCategory,deleteProduct
+    allCategory, categoryForm, saveCategory, editCategory, updateCategory,deleteProduct, addCategory
 }

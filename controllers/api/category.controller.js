@@ -1,9 +1,11 @@
 const models = require("../../models");
+const path = require("path");
+const fs = require("fs");
 const Category = models.Category;
 const Op = models.Sequelize.Op;
 
 // Create and Save a new category
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
 
     if (!req.body.category) {
         res.status(400).send({
@@ -17,19 +19,84 @@ exports.create = (req, res) => {
         category: req.body.category,
         status: req.body.status,
         image:req.body.image,
+        parent_id: req.body.parent_id,
     };
 
-    // Save Catgeory in the database
-    Category.create(category)
-        .then(data => {
+    if (!req.files) {
+        //save product data
+        let {category, status, image} = await req.body;
+        const {parent_id} = req.body;
+
+        //all data save in database
+        Category.create({
+            category, status, image, parent_id
+        })  .then(data => {
             res.send(data);
         })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while creating the category."
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Some error occurred while creating the category."
+                });
             });
+    }
+    else {
+        let {category, status, image} = await req.body;
+        const {parent_id} = req.body;
+
+        let targetFile = req.files.image;
+        let extName = path.extname(targetFile.name);
+        let baseName = path.basename(targetFile.name, extName);
+        let uploadDir = path.join(__dirname, '../../public/downloads/', targetFile.name);
+
+
+        let imgList = ['.png', '.jpg', '.jpeg', '.gif'];
+
+// Checking the file type
+        if (!imgList.includes(extName)) {
+            fs.unlinkSync(targetFile.tempFilePath);
+            return res.status(422).send("Invalid Image");
+        }
+
+        if (targetFile.size > 1048576) {
+            fs.unlinkSync(targetFile.tempFilePath);
+            console.log("target file", targetfile.size)
+            return res.status(413).send("File is too Large");
+        }
+//save original image in public/images
+        targetFile.mv(uploadDir, (err) => {
+            if (err) {
+                console.log("targetfile err", err)
+                return res.status(500).send(err);
+            }
         });
+
+//save image name in database
+        image = baseName + extName;
+        Category.create({
+            category, status, image, parent_id
+        })  .then(data => {
+            res.send(data);
+        })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Some error occurred while creating the category."
+                });
+            });
+    }
+
+    // // Save Catgeory in the database
+    // Category.create(category)
+    //     .then(data => {
+    //         res.send(data);
+    //     })
+    //     .catch(err => {
+    //         res.status(500).send({
+    //             message:
+    //                 err.message || "Some error occurred while creating the category."
+    //         });
+    //     });
 };
 
 // Retrieve all Category from the database.
