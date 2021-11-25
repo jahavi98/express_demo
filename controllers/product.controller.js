@@ -1,6 +1,7 @@
 const models = require("../models");
 const Products = models.Products;
 const Category = models.Category;
+const product_category = models.product_category;
 const {body, validationResult } = require('express-validator');
 const multer = require("multer");
 const fileUpload = require('express-fileupload');
@@ -19,8 +20,10 @@ const allProduct = async (req,res) => {
     const data = await Products.findAll({
       where: {
         is_deleted:0
-       },
-        raw:true
+       }, raw:true,
+        include: [
+            'category'
+        ]
     }).catch(error=>console.log(error));
     await res.render('phome',{data});
 }
@@ -38,8 +41,6 @@ const productForm = async (req,res) => {
 
 //created product data save into database
 const saveProduct = async (req,res) => {
-
-    //validation error
     const errors = validationResult(req)
     console.log(errors)
     if (!errors.isEmpty()) {
@@ -54,26 +55,12 @@ const saveProduct = async (req,res) => {
             description,
             imgconvert,
             image,
-            category,
             price,
             start_date,
             end_date,
             status
         } = await req.body;
-        category = await Products.findOne({
-            include: [
-                {
-                    model: Category,
-                    as: "category",
-                    attributes: ["category"],
-                    through: {
-                        attributes: ["Category_id", "Products_id"],
-                    },
-                },
-            ],
-        }).then((Products) => {
-            return Products;
-        })
+
         const product = await Products.update({
             is_deleted: 1,
             pnumber: 'DEL_' + pnumber
@@ -85,19 +72,26 @@ const saveProduct = async (req,res) => {
             res.redirect('/products');
         });
 
-        const test = await Products.create({
-            name, pnumber, description, imgconvert, image, category, price, start_date, end_date, status
-        }).catch(error => console.log(error));
-        console.log(test)
-        await res.redirect('/products');
-    } else {
+        Products.create({
+            name, pnumber, description, imgconvert, image, price, start_date, end_date, status
+        }).then(function (product) {
+            for (var i = 0; i <req.body.category.length; i++) {
+                product_category.create({
+                        products_id: product.id,
+                        category_id: req.body.category[i]
+                    }
+                )
+            }
+        });
+        res.redirect('/products');
+    }
+    else {
         let {
             name,
             pnumber,
             description,
             imgconvert,
             image,
-            category,
             price,
             start_date,
             end_date,
@@ -171,13 +165,22 @@ const saveProduct = async (req,res) => {
         console.log("************", imgconvert)
 
 //all data save in database
-        const test = await Products.create({
-            name, pnumber, description, imgconvert, image, category, price, start_date, end_date, status
-        }).catch(error => console.log(error));
-        console.log(test)
-        await res.redirect('/products');
+        Products.create({
+            name, pnumber, description, imgconvert, image, price, start_date, end_date, status
+        }).then(function (product) {
+            for (var i = 0; i <req.body.category.length; i++) {
+                product_category.create({
+                        products_id: product.id,
+                        category_id: req.body.category[i]
+                    }
+                )
+            }
+        });
     }
+    res.redirect('/products');
 }
+
+
 
 //edit product page data
 const editProduct = async (req,res) => {
@@ -227,7 +230,6 @@ const deleteProduct = async (req,res) => {
           id: id
         }
       }).catch(error=>console.log(error));
-     console.log("id",id)
       res.redirect('/products');
     }
     

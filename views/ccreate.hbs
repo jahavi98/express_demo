@@ -17,8 +17,8 @@
 <form  action="/category/ccreate" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="_csrf" value="{{token}}">
     <div class="form-group mb-2">
-        <label for="category">{{{__ "category"}}}</label>
-        <input type="text" name="category" class="form-control" id="category">
+        <label for="name">{{{__ "category"}}}</label>
+        <input type="text" name="name" class="form-control" id="name">
     </div>
     <div class="form-group mb-2">
         <label for="">{{{__ "status"}}}</label><br>
@@ -32,24 +32,15 @@
         <input type="file"  name="image" value="" class="form-control" id="image">
     </div>
     <div class="form-group mb-2">
-        <label for="category">Sub-Category</label>
-        <select name="parent_id" id="category" class="form-control">
+        <label for="name">Sub-Category</label>
+        <select name="parent_id" id="name" class="form-control">
             <option value="null">select category</option>
             {{#each category}}
                 <option value="{{id}}">
-                    <span>-</span>
-                    {{category}}</option>
+                    {{name}}</option>
             {{/each}}
         </select>
     </div>
     <button type="submit" class="btn btn-primary mb-2">{{{__ "createcat"}}}</button>
 </form>
 </html>
-<!--<script>-->
-<!--    Handlebars.registerHelper('for', function(from, to, incr, block) {-->
-<!--        var accum = '';-->
-<!--        for(var i = from; i < to; i += incr)-->
-<!--            accum += block.fn(i);-->
-<!--        return accum;-->
-<!--    });-->
-<!--</script>-->

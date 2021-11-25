@@ -10,12 +10,12 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Category.belongsToMany(models.Products, {through: 'product_category', foreignKey: 'Category_id', as: 'product'})
+      Category.belongsToMany(models.Products, {through: 'product_category', foreignKey: 'category_id', as: 'product'})
     }
   };
   Category.init({
     parent_id: DataTypes.STRING,
-    category: DataTypes.STRING,
+    name: DataTypes.STRING,
     status: DataTypes.STRING,
     image: DataTypes.STRING,
     isdelete: DataTypes.INTEGER

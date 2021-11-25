@@ -20,10 +20,7 @@ const allCategory = async (req,res) => {
                 isdelete:0
             },
         raw:true,
-        // include: {
-        //     model: Products,
-        //     through: { attributes: [id] } // this will remove the rows from the join table (i.e. 'UserPubCrawl table') in the result set
-        // },
+
     }).catch(error=>console.log(error));
     await res.render('chome',{data});
     console.log("******************************",data)
@@ -42,17 +39,17 @@ const categoryForm = async (req,res) => {
 const saveCategory = async (req,res) => {
     if (!req.files) {
         //save product data
-        let {category, status, image} = await req.body;
+        let {name, status, image} = await req.body;
         const {parent_id} = req.body;
 
         //all data save in database
         Category.create({
-            category, status, image, parent_id
+            name, status, image, parent_id
         }).catch(error => console.log(error));
         await res.redirect('/category');
     }
     else {
-        let {category, status, image} = await req.body;
+        let {name, status, image} = await req.body;
         const {parent_id} = req.body;
 
         let targetFile = req.files.image;
@@ -89,33 +86,11 @@ const saveCategory = async (req,res) => {
         image = baseName + extName;
         console.log("+++++++++++++++++++++", image)
         Category.create({
-            category, status, image, parent_id
+            name, status, image, parent_id
         }).catch(error => console.log(error));
         await res.redirect('/category');
     }
 }
-const addCategory = (Products_id, Category_id) => {
-     Category.findByPk(Category_id)
-        .then((category) => {
-            if (!category) {
-                console.log("Category not found!");
-                return null;
-            }
-            return Products.findByPk(Products_id).then((Products) => {
-                if (!Products) {
-                    console.log("Product not found!");
-                    return null;
-                }
-
-                category.addCategory(Products);
-                console.log(`>> added Product id=${Products.id} to Category id=${Category.id}`);
-                return Category;
-            });
-        })
-        .catch((err) => {
-            console.log(">> Error while adding Product to Category: ", err);
-        });
-};
 
 //edit product page data
 const editCategory = async (req,res) => {
@@ -169,5 +144,5 @@ const deleteProduct = async (req,res) => {
 }
 
 module.exports = {
-    allCategory, categoryForm, saveCategory, editCategory, updateCategory,deleteProduct, addCategory
+    allCategory, categoryForm, saveCategory, editCategory, updateCategory,deleteProduct
 }

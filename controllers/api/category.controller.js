@@ -7,7 +7,7 @@ const Op = models.Sequelize.Op;
 // Create and Save a new category
 exports.create = async (req, res) => {
 
-    if (!req.body.category) {
+    if (!req.body.name) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
@@ -16,7 +16,7 @@ exports.create = async (req, res) => {
 
     // Create a Category
     const category = {
-        category: req.body.category,
+        name: req.body.name,
         status: req.body.status,
         image:req.body.image,
         parent_id: req.body.parent_id,
@@ -24,12 +24,12 @@ exports.create = async (req, res) => {
 
     if (!req.files) {
         //save product data
-        let {category, status, image} = await req.body;
+        let {name, status, image} = await req.body;
         const {parent_id} = req.body;
 
         //all data save in database
         Category.create({
-            category, status, image, parent_id
+            name, status, image, parent_id
         })  .then(data => {
             res.send(data);
         })
@@ -41,7 +41,7 @@ exports.create = async (req, res) => {
             });
     }
     else {
-        let {category, status, image} = await req.body;
+        let {name, status, image} = await req.body;
         const {parent_id} = req.body;
 
         let targetFile = req.files.image;
@@ -74,7 +74,7 @@ exports.create = async (req, res) => {
 //save image name in database
         image = baseName + extName;
         Category.create({
-            category, status, image, parent_id
+            name, status, image, parent_id
         })  .then(data => {
             res.send(data);
         })
@@ -85,23 +85,11 @@ exports.create = async (req, res) => {
                 });
             });
     }
-
-    // // Save Catgeory in the database
-    // Category.create(category)
-    //     .then(data => {
-    //         res.send(data);
-    //     })
-    //     .catch(err => {
-    //         res.status(500).send({
-    //             message:
-    //                 err.message || "Some error occurred while creating the category."
-    //         });
-    //     });
 };
 
 // Retrieve all Category from the database.
 exports.findAll = (req, res) => {
-    const category = req.query.category;
+    const name = req.query.name;
     Category.findAll({
     where:{
               isdelete:0

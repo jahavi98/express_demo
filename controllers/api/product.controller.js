@@ -2,6 +2,8 @@ const models = require("../../models");
 const path = require("path");
 const fs = require("fs");
 const Products = models.Products;
+const Category = models.Category;
+const product_category = models.product_category;
 const Op = models.Sequelize.Op;
 
 // Create and Save a new product
@@ -22,6 +24,7 @@ exports.create = async (req, res) => {
     description: req.body.description,
     imgconvert:req.body.imgconvert,
     image: req.body.image,
+    category: req.body.category,
     status: req.body.status,
     start_date: req.body.start_date,
     end_date: req.body.end_date
@@ -56,10 +59,16 @@ exports.create = async (req, res) => {
 
     Products.create({
       name, pnumber, description, imgconvert, image, category, price, start_date, end_date, status
-    }).then(data => {
-      res.send(data);
-    })
-        .catch(err => {
+    }).then(function (product) {
+      for (var i = 0; i <req.body.category.length; i++) {
+        product_category.create({
+              products_id: product.id,
+              category_id: req.body.category[i]
+            }
+        )
+      }
+      res.send(product)
+    }).catch(err => {
           res.status(500).send({
             message:
                 err.message || "Some error occurred while creating the Product."
@@ -141,8 +150,15 @@ exports.create = async (req, res) => {
 //all data save in database
     Products.create({
       name, pnumber, description, imgconvert, image, category, price, start_date, end_date, status
-    }).then(data => {
-      res.send(data);
+    }).then(function (product) {
+      for (var i = 0; i <req.body.category.length; i++) {
+        product_category.create({
+              products_id: product.id,
+              category_id: req.body.category[i]
+            }
+        )
+      }
+      res.send(product)
     })
         .catch(err => {
           res.status(500).send({
@@ -162,7 +178,10 @@ exports.findAll = (req, res) => {
     where: {
       is_deleted:0
      },
-      raw:true
+      raw:true,
+    include: [
+        'category'
+    ]
   }).then(data => {
       res.send(data);
     })
