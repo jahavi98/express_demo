@@ -6,6 +6,7 @@ const {body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
 
+
 //validate login page
 const validatelogin = async (req,res,next) => {
     let userdata = req.session.userdata;

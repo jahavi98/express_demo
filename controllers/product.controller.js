@@ -11,9 +11,8 @@ const CsvParser = require("json2csv").Parser;
 const excel = require("exceljs");
 const moment = require('moment');
 const { __ } = require("i18n");
-const {where} = require("sequelize");
+const {sequelize} = require("sequelize");
 const pdf = require('html-pdf');
-
 
 //all product home page
 const allProduct = async (req,res) => {
@@ -21,10 +20,18 @@ const allProduct = async (req,res) => {
       where: {
         is_deleted:0
        }, raw:true,
+        //join other table
         include: [
             'category'
-        ]
+        ],
+        //perform group by concat
+        attributes: [
+            'Products.*',
+            [models.sequelize.fn('GROUP_CONCAT', models.sequelize.col('category.name')), 'categories_name']
+        ],
+        group: ['Products.id']
     }).catch(error=>console.log(error));
+    console.log("**********",data)
     await res.render('phome',{data});
 }
 
@@ -41,12 +48,15 @@ const productForm = async (req,res) => {
 
 //created product data save into database
 const saveProduct = async (req,res) => {
+
+    // check validation error
     const errors = validationResult(req)
     console.log(errors)
     if (!errors.isEmpty()) {
         return res.render('pcreate', {errors: errors['errors'], token: req.body._csrf})
     }
 
+    //without image data will be saved
     if (!req.files) {
         //save product data
         let {
@@ -61,6 +71,7 @@ const saveProduct = async (req,res) => {
             status
         } = await req.body;
 
+        //if product number is in soft delete & user again take this number then deleted number will be updated
         const product = await Products.update({
             is_deleted: 1,
             pnumber: 'DEL_' + pnumber
@@ -72,6 +83,7 @@ const saveProduct = async (req,res) => {
             res.redirect('/products');
         });
 
+        // Product data will be saved in database
         Products.create({
             name, pnumber, description, imgconvert, image, price, start_date, end_date, status
         }).then(function (product) {
@@ -85,6 +97,8 @@ const saveProduct = async (req,res) => {
         });
         res.redirect('/products');
     }
+
+    //with image data will be save
     else {
         let {
             name,
@@ -181,7 +195,6 @@ const saveProduct = async (req,res) => {
 }
 
 
-
 //edit product page data
 const editProduct = async (req,res) => {
     const allcategory = await Category.findAll({
@@ -199,6 +212,7 @@ const product = await Products.findOne({
 }).catch(error=>console.log(error));
     res.render('pedit',{product,allcategory});
 }
+
 
 //update edited data into the database
 const updateProduct = async (req,res) => {
@@ -241,14 +255,14 @@ const deleteProduct = async (req,res) => {
     Products.findAll().then((objs) => {
       let product = [];
     
-      const csvFields = {name:"Name", pnumber:"SKU", description:"Description", category:"Category", price:"Price", start_date:"Start_date", 
+      const csvFields = {name:"Name", pnumber:"SKU", description:"Description", price:"Price", start_date:"Start_date",
       end_date:"End_Date", status:"Status"};
       
       product.push(csvFields);
 
       objs.forEach((obj) => {
-        const {name,pnumber,description,category,price,start_date,end_date,status} = obj;
-        product.push({ name,pnumber,description,category,price,start_date,end_date,status});
+        const {name,pnumber,description,price,start_date,end_date,status} = obj;
+        product.push({ name,pnumber,description,price,start_date,end_date,status});
 
       });
       console.log("product",product)
@@ -311,7 +325,6 @@ const preparehtml = async (productdata) => {
         '<th style="border: 1px solid black">Name</th>' +
         '<th style="border: 1px solid black">SKU</th>' +
         '<th style="border: 1px solid black">Description</th>' +
-        '<th style="border: 1px solid black">Category</th>' +
         '<th style="border: 1px solid black">Price</th>' +
         '<th style="border: 1px solid black">Start_date</th>' +
         '<th style="border: 1px solid black">End_date</th>' +
@@ -327,7 +340,6 @@ const preparehtml = async (productdata) => {
             '<td style="border: 1px solid black">'+product.name+'</td>' +
             '<td style="border: 1px solid black">'+product.pnumber+'</td>' +
             '<td style="border: 1px solid black">'+product.description+'</td>' +
-            '<td style="border: 1px solid black">'+product.category+'</td>' +
             '<td style="border: 1px solid black">'+product.price+'</td>' +
             '<td style="border: 1px solid black">'+product.start_date+'</td>' +
             '<td style="border: 1px solid black">'+product.end_date+'</td>' +
@@ -350,7 +362,6 @@ const xlsx = (req, res) => {
         name: obj.name,
         pnumber: obj.pnumber,
         description: obj.description,
-        category: obj.category,
         price: obj.price,
         start_date: obj.start_date,
         end_date: obj.end_date,
@@ -365,7 +376,6 @@ const xlsx = (req, res) => {
       { header: "Name", key: "name", width: 25 },
       { header: "SKU", key: "pnumber", width: 25 },
       { header: "Description", key: "description", width: 10 },
-      { header: "Category", key: "category", width: 10 },
       { header: "Price", key: "price", width: 10 },
       { header: "Start_Date", key: "start_date", width: 10 },
       { header: "End_Date", key: "end_date", width: 10 },

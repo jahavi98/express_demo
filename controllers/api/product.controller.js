@@ -4,6 +4,7 @@ const fs = require("fs");
 const Products = models.Products;
 const Category = models.Category;
 const product_category = models.product_category;
+const {sequelize} = require("sequelize");
 const Op = models.Sequelize.Op;
 
 // Create and Save a new product
@@ -181,7 +182,12 @@ exports.findAll = (req, res) => {
       raw:true,
     include: [
         'category'
-    ]
+    ],
+    attributes: [
+      'Products.*',
+      [models.sequelize.fn('GROUP_CONCAT', models.sequelize.col('category.name')), 'categories_name']
+    ],
+    group: ['Products.id']
   }).then(data => {
       res.send(data);
     })
