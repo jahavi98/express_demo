@@ -36,8 +36,7 @@
         <select name="parent_id" id="category" class="form-control">
             <option value="null">select category</option>
             {{#each category}}
-                <option value="{{id}}"
-                for(0 parent_id 1)>
+                <option value="{{id}}">
                     <span>-</span>
                     {{category}}</option>
             {{/each}}
@@ -46,11 +45,11 @@
     <button type="submit" class="btn btn-primary mb-2">{{{__ "createcat"}}}</button>
 </form>
 </html>
-<script>
-    Handlebars.registerHelper('for', function(from, to, incr, block) {
-        var accum = '';
-        for(var i = from; i < to; i += incr)
-            accum += block.fn(i);
-        return accum;
-    });
-</script>
+<!--<script>-->
+<!--    Handlebars.registerHelper('for', function(from, to, incr, block) {-->
+<!--        var accum = '';-->
+<!--        for(var i = from; i < to; i += incr)-->
+<!--            accum += block.fn(i);-->
+<!--        return accum;-->
+<!--    });-->
+<!--</script>-->

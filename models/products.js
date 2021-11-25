@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // models.Products.belongsTo(models.Category, { through: 'product_category' });
+      Products.belongsToMany(models.Category, {through: 'product_category', foreignKey: 'Products_id', as: 'category'})
     }
   };
   Products.init({
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.FLOAT,
     description: DataTypes.STRING,
     image:DataTypes.STRING,
-    category:DataTypes.STRING,
+    // category:DataTypes.STRING,
     status:DataTypes.STRING,
     start_date:DataTypes.DATE,
     end_date:DataTypes.DATE,

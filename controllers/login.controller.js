@@ -38,7 +38,7 @@ const loginUser = async (req,res) => {
      console.log(errors)
      if(!errors.isEmpty())
      {
-      return  res.render('login',{errors:errors['errors'],token:req.body._csrf})
+      return  res.render('login',{errors:errors['errors'],token:req.body._csrf,layout:false})
       
      }
     const {username} = req.body;
@@ -49,7 +49,7 @@ const loginUser = async (req,res) => {
    }).then(async (user)=> {
        console.log("user",user)
         if (!user) {
-           res.redirect('/');
+           res.render('/',{layout:false});
         } else {
     let passwordisVaild = bcrypt.compareSync(req.body.password,user.password);
        if (!passwordisVaild) {

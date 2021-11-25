@@ -14,8 +14,10 @@ const csrf = require('csurf');
 const csrfprotect=csrf({cookie:true});
 const nodemailer = require('nodemailer');
 
+
 var uapiRouter = require('./routes/api/user.routes');
 var papiRouter = require('./routes/api/product.routes');
+var capiRouter = require('./routes/api/category.routes');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
@@ -30,7 +32,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', exphbs({
   extname: '.hbs',
   layoutsDir: __dirname + '/views/layouts/',
-  partialsDir: __dirname + '/views/partials/',
   helpers: {
     __: function() { return i18n.__.apply(this, arguments); },
     __n: function() { return i18n.__n.apply(this, arguments); }
@@ -106,6 +107,7 @@ app.use(function(req, res, next) {
 
 app.use('/api/products',papiRouter);
 app.use('/api/users',uapiRouter);
+app.use('/api/category',capiRouter);
 app.use('/', loginRouter);
 app.use('/users', usersRouter);
 app.use('/products',productsRouter);

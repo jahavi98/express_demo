@@ -57,7 +57,20 @@ const saveProduct = async (req,res) => {
             end_date,
             status
         } = await req.body;
-
+        category = await Products.findOne({
+            include: [
+                {
+                    model: Category,
+                    as: "category",
+                    attributes: ["category"],
+                    through: {
+                        attributes: ["Category_id", "Products_id"],
+                    },
+                },
+            ],
+        }).then((Products) => {
+            return Products;
+        })
         const product = await Products.update({
             is_deleted: 1,
             pnumber: 'DEL_' + pnumber
@@ -165,6 +178,9 @@ const saveProduct = async (req,res) => {
 
 //edit product page data
 const editProduct = async (req,res) => {
+    const allcategory = await Category.findAll({
+        raw:true,
+    });
     const {id} = await req.params;
 const product = await Products.findOne({
     where : {
@@ -172,7 +188,7 @@ const product = await Products.findOne({
     },
      raw:true
 }).catch(error=>console.log(error));
-    res.render('pedit',{product});
+    res.render('pedit',{product,allcategory});
 }
 
 //update edited data into the database

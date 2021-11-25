@@ -1,5 +1,6 @@
 const models = require("../models");
 const Category = models.Category;
+const Products = models.Products;
 const {body, validationResult } = require('express-validator');
 const multer = require("multer");
 const fileUpload = require('express-fileupload');
@@ -13,14 +14,16 @@ const {where} = require("sequelize");
 
 
 //all product home page
-const allProduct = async (req,res) => {
+const allCategory = async (req,res) => {
     const data = await Category.findAll({
-          raw:true,
+            where: {
+                isdelete:0
+            },
+        raw:true,
     }).catch(error=>console.log(error));
     await res.render('chome',{data});
     console.log("******************************",data)
 }
-
 
 //new product created
 const categoryForm = async (req,res) => {
@@ -114,8 +117,21 @@ const updateCategory = async (req,res) => {
 
 //delete the product
 const deleteProduct = async (req,res) => {
- const {id} = req.params;
-        const category = await Category.destroy({
+    const {id} = req.params;
+    if(id==req.params)
+    {
+        const errors = [{
+
+            msg: 'You can not delete your current login credentials'
+
+        }]
+        return  res.render('cedit');
+    }
+    else
+    {
+        const category = await Category.update({
+            isdelete:1
+        }, {
             where: {
                 id: id
             }
@@ -124,6 +140,8 @@ const deleteProduct = async (req,res) => {
         res.redirect('/category');
     }
 
+}
+
 module.exports = {
-    allProduct, categoryForm, saveCategory, editCategory, updateCategory,deleteProduct
+    allCategory, categoryForm, saveCategory, editCategory, updateCategory,deleteProduct
 }
