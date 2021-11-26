@@ -19,13 +19,13 @@ module.exports = (sequelize, DataTypes) => {
     pnumber: DataTypes.STRING,
     price: DataTypes.FLOAT,
     description: DataTypes.STRING,
-    image:DataTypes.STRING,
+    image: DataTypes.STRING,
     // category:DataTypes.STRING,
-    status:DataTypes.STRING,
-    start_date:DataTypes.DATE,
-    end_date:DataTypes.DATE,
-    imgconvert:DataTypes.STRING,
-    is_deleted:DataTypes.INTEGER
+    status: DataTypes.STRING,
+    start_date: DataTypes.DATE,
+    end_date: DataTypes.DATE,
+    imgconvert: DataTypes.STRING,
+    is_deleted: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Products',

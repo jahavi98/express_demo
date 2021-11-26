@@ -1,38 +1,38 @@
 <head>
-   <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-            <link href="assets/css/style.css" rel="stylesheet">
-            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" /> 
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
 </head>
 <br>
 <h4>{{{__ "aluser"}}}</h4>
 <a class="btn btn-primary" href="/users/create">{{{__ "cruser"}}}</a><br><br>
-<table class="table table-bordered" id="data"  style="width:100%">
-  <thead>
+<table class="table table-bordered" id="data" style="width:100%">
+    <thead>
     <tr>
-      <th scope="col">id</th>
-      <th scope="col">{{{__ "name"}}}</th>
-      <th scope="col">{{{__ "uname"}}}</th>
-      <th scope="col">{{{__ "act"}}}</th>
+        <th scope="col">id</th>
+        <th scope="col">{{{__ "name"}}}</th>
+        <th scope="col">{{{__ "uname"}}}</th>
+        <th scope="col">{{{__ "act"}}}</th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     {{#each data}}
-    <tr>
-      <th scope="row">{{this.id}}</th>
-      <td>{{this.name}}</td>
-      <td>{{this.username}}</td>
-      <td>
-        <a class="btn btn-success" href="/users/edit/{{this.id}}">{{__ "edit"}}</a>
-        <a class="btn btn-primary" href="/users/delete/{{this.id}}">{{__ "dlt"}}</a>
-      </td>
-    </tr>
-   {{/each}}
-  </tbody>
+        <tr>
+            <th scope="row">{{this.id}}</th>
+            <td>{{this.name}}</td>
+            <td>{{this.username}}</td>
+            <td>
+                <a class="btn btn-success" href="/users/edit/{{this.id}}">{{__ "edit"}}</a>
+                <a class="btn btn-primary" href="/users/delete/{{this.id}}">{{__ "dlt"}}</a>
+            </td>
+        </tr>
+    {{/each}}
+    </tbody>
 </table>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script>
-  $(document).ready( function () {
-    $('#data').DataTable();
-} );
+    $(document).ready(function () {
+        $('#data').DataTable();
+    });
 </script>

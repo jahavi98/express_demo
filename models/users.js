@@ -17,9 +17,9 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     username: DataTypes.STRING,
     password: DataTypes.STRING,
-    is_selected:DataTypes.INTEGER,
-    to:DataTypes.STRING
-    }, {
+    is_selected: DataTypes.INTEGER,
+    to: DataTypes.STRING
+  }, {
     sequelize,
     modelName: 'Users',
   });

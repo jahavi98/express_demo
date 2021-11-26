@@ -1,7 +1,9 @@
 <html>
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet"
+          type="text/css"/>
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
 
 </head>
 <h4>{{{__ "createcat"}}}</h4>
@@ -14,7 +16,7 @@
     {{/each}}
 {{/if}}
 
-<form  action="/category/ccreate" method="POST" enctype="multipart/form-data">
+<form action="/category/ccreate" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="_csrf" value="{{token}}">
     <div class="form-group mb-2">
         <label for="name">{{{__ "category"}}}</label>
@@ -29,14 +31,14 @@
     </div>
     <div class="form-group mb-2">
         <label for="image">{{{__ "pimg"}}}</label>
-        <input type="file"  name="image" value="" class="form-control" id="image">
+        <input type="file" name="image" value="" class="form-control" id="image">
     </div>
     <div class="form-group mb-2">
         <label for="name">Sub-Category</label>
         <select name="parent_id" id="name" class="form-control">
             <option value="null">select category</option>
             {{#each category}}
-                <option value="{{id}}">
+                <option value="{{id}}" parent_id="{{parent_id}}">
                     {{name}}</option>
             {{/each}}
         </select>
@@ -44,3 +46,33 @@
     <button type="submit" class="btn btn-primary mb-2">{{{__ "createcat"}}}</button>
 </form>
 </html>
+<!--<script>-->
+<!--    function Tonull(category) {-->
+<!--        var childrenById = {};-->
+<!--        var nodes = {};-->
+<!--        var i, row;-->
+<!--        // first pass: build child arrays and initial node array-->
+<!--        for (i=0; i<category.length; i++) {-->
+<!--            row = category[i];-->
+<!--            nodes[row.id] = {name: row.name, category: []};-->
+<!--            if (row.parent_id == null) { // assume -1 is used to mark the root's "parent"-->
+<!--                category = row.id;-->
+<!--            } else if (childrenById[row.parent_id] === undefined) {-->
+<!--                childrenById[row.parent_id] = [row.id];-->
+<!--            } else {-->
+<!--                childrenById[row.parent_id].push(row.id);-->
+<!--            }-->
+<!--        }-->
+<!--        // second pass: build tree, using the awesome power of recursion!-->
+<!--        function expand(id) {-->
+<!--            if (childrenById[id] !== undefined) {-->
+<!--                for (var i=0; i < childrenById[id].length; i ++) {-->
+<!--                    var childId = childrenById[id][i];-->
+<!--                    nodes[id].category.push(expand(childId));-->
+<!--                }-->
+<!--            }-->
+<!--            return nodes[id];-->
+<!--        }-->
+<!--        return expand(root);-->
+<!--    }-->
+<!--</script>-->

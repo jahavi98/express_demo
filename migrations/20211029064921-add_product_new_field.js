@@ -2,11 +2,11 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return [ queryInterface.addColumn(
-     'Products',
-     'imgconvert',
-     Sequelize.STRING
-     )];
+    return [queryInterface.addColumn(
+      'Products',
+      'imgconvert',
+      Sequelize.STRING
+    )];
   },
 
   down: async (queryInterface, Sequelize) => {

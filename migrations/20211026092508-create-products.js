@@ -10,16 +10,16 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        allowNull:false
+        allowNull: false
       },
       pnumber: {
         type: Sequelize.STRING,
-        allowNull:false,
-        unique:true
+        allowNull: false,
+        unique: true
       },
       price: {
         type: Sequelize.FLOAT,
-        allowNull:false
+        allowNull: false
       },
       createdAt: {
         allowNull: false,

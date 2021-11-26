@@ -13,9 +13,9 @@ exports.login = (req, res) => {
   })
     .then(user => {
       if (!user) {
-        return res.status(404).send({ message: "User Not found." });
+        return res.status(404).send({message: "User Not found."});
       }
-       var passwordIsValid = bcrypt.compareSync(
+      var passwordIsValid = bcrypt.compareSync(
         req.body.password,
         user.password
       );
@@ -27,18 +27,18 @@ exports.login = (req, res) => {
         });
       }
 
-      var token = jwt.sign({ id: user.id }, config.secret, {
+      var token = jwt.sign({id: user.id}, config.secret, {
         expiresIn: 86400 // 24 hours
       });
 
-        res.status(200).send({
-          id: user.id,
-          username: user.username,
-          accessToken: token
-        });
+      res.status(200).send({
+        id: user.id,
+        username: user.username,
+        accessToken: token
+      });
     })
     .catch(err => {
-      res.status(500).send({ message: err.message });
+      res.status(500).send({message: err.message});
     });
 };
 
@@ -83,13 +83,13 @@ exports.findAll = (req, res) => {
 
   Users.findAll({
     where: {
-      is_selected:0
-     },
-    raw:true
-}).then(data => {
-      res.send(data);
-      
-    })
+      is_selected: 0
+    },
+    raw: true
+  }).then(data => {
+    res.send(data);
+
+  })
     .catch(err => {
       res.status(500).send({
         message:
@@ -124,7 +124,7 @@ exports.update = (req, res) => {
   const id = req.params.id;
 
   Users.update(req.body, {
-    where: { id: id }
+    where: {id: id}
   })
     .then(id => {
       if (id == 1) {
@@ -149,7 +149,7 @@ exports.delete = (req, res) => {
   const id = req.params.id;
 
   Users.update({
-    is_selected:1
+    is_selected: 1
   }, {
     where: {
       id: id
@@ -180,7 +180,7 @@ exports.deleteAll = (req, res) => {
     truncate: false
   })
     .then(id => {
-      res.send({ message: `${id} Users were deleted successfully!` });
+      res.send({message: `${id} Users were deleted successfully!`});
     })
     .catch(err => {
       res.status(500).send({
@@ -192,14 +192,14 @@ exports.deleteAll = (req, res) => {
 
 // Find all published Users
 exports.findAllPublished = (req, res) => {
-  Users.findAll({ where: { published: true } })
-  .then(data => {
-    res.send(data);
-  })
-  .catch(err => {
-    res.status(500).send({
-      message:
-        err.message || "Some error occurred while retrieving users."
+  Users.findAll({where: {published: true}})
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
     });
-  });
 };

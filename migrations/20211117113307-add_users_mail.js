@@ -7,8 +7,8 @@ module.exports = {
         'Users', // table name
         'to', // new field name
         {
-        type: Sequelize.STRING,
-        unique:true
+          type: Sequelize.STRING,
+          unique: true
         },
       ),
     ]);

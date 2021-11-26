@@ -7,14 +7,14 @@ module.exports = {
         'Products', // table name
         'is_deleted', // new field name
         {
-        allowNull: false,
-        type: Sequelize.INTEGER(1),
-        defaultValue: true,
-        defaultValue:0
+          allowNull: false,
+          type: Sequelize.INTEGER(1),
+          defaultValue: true,
+          defaultValue: 0
         },
       ),
-      
-     
+
+
     ]);
   },
 

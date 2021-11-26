@@ -4,29 +4,29 @@
 <br>
 <br>
 {{#if errors}}
-        {{#each errors}}
-            <div class="alert alert-danger">{{msg}}</div>
-        {{/each}}
-    {{/if}}
+    {{#each errors}}
+        <div class="alert alert-danger">{{msg}}</div>
+    {{/each}}
+{{/if}}
 <form action="/users/create" method="POST">
-  <input type="hidden" name="_csrf" value="{{token}}">
-  <div class="form-group mb-2">
-    <label for="name">{{{__ "name"}}}</label>
-    <input type="text" name="name" class="form-control" id="name">
-  </div>
+    <input type="hidden" name="_csrf" value="{{token}}">
     <div class="form-group mb-2">
-    <label for="email">{{{__ "email"}}}</label>
-    <input type="email" name="to" class="form-control" id="email">
-  </div>
-  <div class="form-group mb-2">
-    <label for="username">{{{__ "uname"}}}</label>
-    <input type="text" name="username" class="form-control" id="username">
-  </div>
-  <div class="form-group mb-2">
-    <label for="password">{{{__ "pwd"}}}</label>
-    <input type="password" name="password" class="form-control" id="password">
-  </div>
-  <button type="submit" class="btn btn-primary mb-2">{{{__ "cruser"}}}</button>
+        <label for="name">{{{__ "name"}}}</label>
+        <input type="text" name="name" class="form-control" id="name">
+    </div>
+    <div class="form-group mb-2">
+        <label for="email">{{{__ "email"}}}</label>
+        <input type="email" name="to" class="form-control" id="email">
+    </div>
+    <div class="form-group mb-2">
+        <label for="username">{{{__ "uname"}}}</label>
+        <input type="text" name="username" class="form-control" id="username">
+    </div>
+    <div class="form-group mb-2">
+        <label for="password">{{{__ "pwd"}}}</label>
+        <input type="password" name="password" class="form-control" id="password">
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">{{{__ "cruser"}}}</button>
 
 </form>
 

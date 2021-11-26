@@ -1,31 +1,28 @@
-const { authJwt } = require("../../middleware");
+const {authJwt} = require("../../middleware");
 const users = require("../../controllers/api/user.controller");
-var express = require('express');
+const express = require('express');
 
-var router = express.Router();
-  
-  //create a token
-  router.post("/login", users.login);
+const router = express.Router();
 
-  // Create a new Tutorial
-  router.post("/create",[authJwt.verifyToken],users.create);
+//create a token
+router.post("/login", users.login);
 
-  // Retrieve all Tutorials
-  router.get("/list", [authJwt.verifyToken], users.findAll);
+// Create a new Users
+router.post("/create", [authJwt.verifyToken], users.create);
 
-  // Retrieve all published Tutorials
-  router.get("/published", [authJwt.verifyToken],users.findAllPublished);
+// Retrieve all Users
+router.get("/list", [authJwt.verifyToken], users.findAll);
 
-  // Retrieve a single Tutorial with id
-  router.get("/:id",[authJwt.verifyToken],users.findOne);
+// Retrieve a single Users with id
+router.get("/:id", [authJwt.verifyToken], users.findOne);
 
-  // Update a Tutorial with id
-  router.put("/edit/:id", [authJwt.verifyToken],users.update);
+// Update a Users with id
+router.put("/edit/:id", [authJwt.verifyToken], users.update);
 
-  // Delete a Tutorial with id
-  router.delete("/delete/:id", [authJwt.verifyToken], users.delete);
+// Delete a Users with id
+router.delete("/delete/:id", [authJwt.verifyToken], users.delete);
 
-  // Delete all Tutorials
-  router.delete("/", [authJwt.verifyToken],users.deleteAll);
+// Delete all Users
+router.delete("/", [authJwt.verifyToken], users.deleteAll);
 
-  module.exports = router;
+module.exports = router;

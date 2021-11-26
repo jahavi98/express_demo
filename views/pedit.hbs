@@ -1,84 +1,91 @@
 {{!-- The content for the app's home view which will be rendered into the layout's {{{body}}} --}}
 <html>
-  <head>
-    <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet"
+          type="text/css"/>
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
 </head>
 <br>
 <h4>{{{__ "epro"}}}</h4>
 <a class="btn btn-primary" href="/products">{{{__ "allpro"}}}</a>
 <br>
 <br>
-  {{#if errors}}
+{{#if errors}}
     {{#each errors}}
-          <p class="alert alert-danger">{{this.msg}}</p>
+        <p class="alert alert-danger">{{this.msg}}</p>
     {{/each}}
 {{/if}}
-<form action="/products/update/{{product.id}}" method="POST" >
-  <div class="form-group mb-2">
-    <label for="name">{{{__ "pname"}}}</label>
-    <input type="text" name="name" value="{{product.name}}" class="form-control" id="name">
-  </div>
-  <div class="form-group mb-2">
-    <label for="pnumber">{{{__ "pnumber"}}}</label>
-    <input type="text" name="pnumber" value="{{product.pnumber}}" class="form-control" id="pnumber">
-  </div>
-   <div class="form-group mb-2">
-    <label for="description">{{{__ "desc"}}}</label>
-    <input type="text" id="description" name="description" value="{{product.description}}" class="form-control">
-  </div>
+<form action="/products/update/{{product.id}}" method="POST">
+    <div class="form-group mb-2">
+        <label for="name">{{{__ "pname"}}}</label>
+        <input type="text" name="name" value="{{product.name}}" class="form-control" id="name">
+    </div>
+    <div class="form-group mb-2">
+        <label for="pnumber">{{{__ "pnumber"}}}</label>
+        <input type="text" name="pnumber" value="{{product.pnumber}}" class="form-control" id="pnumber">
+    </div>
+    <div class="form-group mb-2">
+        <label for="description">{{{__ "desc"}}}</label>
+        <input type="text" id="description" name="description" value="{{product.description}}" class="form-control">
+    </div>
     <div class="form-group mb-2">
         <label for="image">{{{__ "pimg"}}}</label>
         <input type="file" name="image" value="" class="form-control" id="image">
-       <img id="blah" src="/images/{{product.image}}"  />
-      <br>
-      <a class="btn btn-primary" href="#" onclick="myFunction()">Remove</a>
-      <script>
-      image.onchange = evt => {
-      const [file] = image.files
-      if (file) {
-      blah.src = URL.createObjectURL(file)
-  }
-}
-function myFunction() {
-  var myobj = document.getElementById("blah");
-  myobj.remove();
-}
-    </script>
-  </div>
+        <img id="blah" src="/images/{{product.image}}"/>
+        <br>
+        <a class="btn btn-primary" href="#" onclick="myFunction()">Remove</a>
+        <script>
+            image.onchange = evt => {
+                const [file] = image.files
+                if (file) {
+                    blah.src = URL.createObjectURL(file)
+                }
+            }
+
+            function myFunction() {
+                var myobj = document.getElementById("blah");
+                myobj.remove();
+            }
+        </script>
+    </div>
     <div class="form-group mb-2">
-  <label for="category">{{{__ "category"}}}</label>
-        <select multiple name="category" id="category"  class="form-control">
+        <label for="category">{{{__ "category"}}}</label>
+        <select multiple name="category" id="category" class="form-control">
             {{#each allcategory}}
                 <option value="{{category}}">{{name}}</option>
             {{/each}}
         </select>
-  </div>
-   <div class="form-group mb-2">
-    <label for="price">{{{__ "price"}}}</label>
-    <input type="text" name="price" value="{{product.price}}" onkeyup="calc(form)" onchange="calc(form)" class="form-control" id="price">
-       <script>
-           function calc(form) {
-               const num = form.price.value
-               const with2Decimals = num.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]
-               price.value = with2Decimals
-           }
-       </script>  </div>
-  <div class="form-group mb-2">
-    <label for="start_date">{{{__ "strat_date"}}}</label>
-    <input type="date" name="start_date" value="{{product.start_date}}" placeholder="dd-mm-yyyy" class="form-control" id="start_date">
-  </div>
-   <div class="form-group mb-2">
-    <label for="end_date">{{{__ "end_date"}}}</label>
-    <input type="date" name="end_date" value="{{product.end_date}}" placeholder="dd-mm-yyyy" class="form-control" id="end_date">
-  </div>
+    </div>
     <div class="form-group mb-2">
-    <label for="">{{{__ "status"}}}</label><br>
-    <input type="radio" id="active" name="status" value="active">
-    <label for="active">Active</label><br>
-     <input type="radio" id="deactive" name="status" value="deactive">
-     <label for="deactive">DeActive</label>
- </div>
-  <button type="submit" class="btn btn-primary mb-2">{{{__ "upro"}}}</button>
+        <label for="price">{{{__ "price"}}}</label>
+        <input type="text" name="price" value="{{product.price}}" onkeyup="calc(form)" onchange="calc(form)"
+               class="form-control" id="price">
+        <script>
+            function calc(form) {
+                const num = form.price.value
+                const with2Decimals = num.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]
+                price.value = with2Decimals
+            }
+        </script>
+    </div>
+    <div class="form-group mb-2">
+        <label for="start_date">{{{__ "strat_date"}}}</label>
+        <input type="date" name="start_date" value="{{product.start_date}}" placeholder="dd-mm-yyyy"
+               class="form-control" id="start_date">
+    </div>
+    <div class="form-group mb-2">
+        <label for="end_date">{{{__ "end_date"}}}</label>
+        <input type="date" name="end_date" value="{{product.end_date}}" placeholder="dd-mm-yyyy" class="form-control"
+               id="end_date">
+    </div>
+    <div class="form-group mb-2">
+        <label for="">{{{__ "status"}}}</label><br>
+        <input type="radio" id="active" name="status" value="active">
+        <label for="active">Active</label><br>
+        <input type="radio" id="deactive" name="status" value="deactive">
+        <label for="deactive">DeActive</label>
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">{{{__ "upro"}}}</button>
 </form>
 </html>

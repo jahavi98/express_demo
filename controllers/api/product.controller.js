@@ -23,7 +23,7 @@ exports.create = async (req, res) => {
     pnumber: req.body.pnumber,
     price: req.body.price,
     description: req.body.description,
-    imgconvert:req.body.imgconvert,
+    imgconvert: req.body.imgconvert,
     image: req.body.image,
     category: req.body.category,
     status: req.body.status,
@@ -61,20 +61,20 @@ exports.create = async (req, res) => {
     Products.create({
       name, pnumber, description, imgconvert, image, category, price, start_date, end_date, status
     }).then(function (product) {
-      for (var i = 0; i <req.body.category.length; i++) {
+      for (var i = 0; i < req.body.category.length; i++) {
         product_category.create({
-              products_id: product.id,
-              category_id: req.body.category[i]
-            }
+            products_id: product.id,
+            category_id: req.body.category[i]
+          }
         )
       }
       res.send(product)
     }).catch(err => {
-          res.status(500).send({
-            message:
-                err.message || "Some error occurred while creating the Product."
-          });
-        });
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Product."
+      });
+    });
   } else {
     let {
       name,
@@ -152,21 +152,21 @@ exports.create = async (req, res) => {
     Products.create({
       name, pnumber, description, imgconvert, image, category, price, start_date, end_date, status
     }).then(function (product) {
-      for (var i = 0; i <req.body.category.length; i++) {
+      for (var i = 0; i < req.body.category.length; i++) {
         product_category.create({
-              products_id: product.id,
-              category_id: req.body.category[i]
-            }
+            products_id: product.id,
+            category_id: req.body.category[i]
+          }
         )
       }
       res.send(product)
     })
-        .catch(err => {
-          res.status(500).send({
-            message:
-                err.message || "Some error occurred while creating the Product."
-          });
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the Product."
         });
+      });
   }
 };
 
@@ -177,11 +177,11 @@ exports.findAll = (req, res) => {
 
   Products.findAll({
     where: {
-      is_deleted:0
-     },
-      raw:true,
+      is_deleted: 0
+    },
+    raw: true,
     include: [
-        'category'
+      'category'
     ],
     attributes: [
       'Products.*',
@@ -189,8 +189,8 @@ exports.findAll = (req, res) => {
     ],
     group: ['Products.id']
   }).then(data => {
-      res.send(data);
-    })
+    res.send(data);
+  })
     .catch(err => {
       res.status(500).send({
         message:
@@ -225,7 +225,7 @@ exports.update = (req, res) => {
   const id = req.params.id;
 
   Products.update(req.body, {
-    where: { id: id }
+    where: {id: id}
   })
     .then(id => {
       if (id == 1) {
@@ -250,7 +250,7 @@ exports.delete = (req, res) => {
   const id = req.params.id;
 
   Products.update({
-    is_deleted:1
+    is_deleted: 1
   }, {
     where: {
       id: id
@@ -281,7 +281,7 @@ exports.deleteAll = (req, res) => {
     truncate: false
   })
     .then(id => {
-      res.send({ message: `${id} Products were deleted successfully!` });
+      res.send({message: `${id} Products were deleted successfully!`});
     })
     .catch(err => {
       res.status(500).send({
@@ -291,16 +291,3 @@ exports.deleteAll = (req, res) => {
     });
 };
 
-// Find all published Products
-exports.findAllPublished = (req, res) => {
-  Products.findAll({ where: { published: true } })
-  .then(data => {
-    res.send(data);
-  })
-  .catch(err => {
-    res.status(500).send({
-      message:
-        err.message || "Some error occurred while retrieving products."
-    });
-  });
-};

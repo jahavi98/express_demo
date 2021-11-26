@@ -1,77 +1,77 @@
 <html>
-  <head>
- <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-            <link href="assets/css/style.css" rel="stylesheet">
-            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" /> 
-  </head>
+<head>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
+</head>
 <body>
 
-  <br>
+<br>
 <h4> {{{__ "allpro"}}}</h4>
 <a class="btn btn-primary" href="/products/pcreate">{{{__ "cproduct"}}}</a>
 <br>
-  <div class="nav-item dropdown">
-      <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{{__ "download"}}}</a>
-      <div class="dropdown-menu" id="google_translate_element">
-          <a href="/products/download" class="dropdown-item">CSV Format</a>
-          <a href="/products/xlsx" class="dropdown-item">XLSX Format</a>
-          <a href="/products/pdf" class="dropdown-item">PDF Format</a>
-      </div>
-  </div>
+<div class="nav-item dropdown">
+    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{{__ "download"}}}</a>
+    <div class="dropdown-menu" id="google_translate_element">
+        <a href="/products/download" class="dropdown-item">CSV Format</a>
+        <a href="/products/xlsx" class="dropdown-item">XLSX Format</a>
+        <a href="/products/pdf" class="dropdown-item">PDF Format</a>
+    </div>
+</div>
 <br>
-  {{# if errors }}
+{{# if errors }}
     {{# each errors }}
-          <p class="alert alert-danger">{{ this.msg }}</p>
+        <p class="alert alert-danger">{{ this.msg }}</p>
     {{/each}}
 {{/if}}
 <table class="table table-bordered" id="pro" style="width:100%">
-  <thead>
+    <thead>
     <tr>
-      <th scope="col">id</th>
-      <th scope="col">{{{__ "pname"}}}</th>
-      <th scope="col">{{{__ "pnumber"}}}</th>
-      <th scope="col">{{{__ "desc"}}}</th>
-      <th scope="col">{{{__ "pimg"}}}</th>
-      <th scope="col">{{{__ "category"}}}</th>
-      <th scope="col">{{{__ "price"}}}</th>
-      <th scope="col">{{{__ "strat_date"}}}</th>
-      <th scope="col">{{{__ "end_date"}}}</th>
-      <th scope="col">{{{__ "status"}}}</th>
-      <th scope="col">{{{__ "act"}}}</th>
+        <th scope="col">id</th>
+        <th scope="col">{{{__ "pname"}}}</th>
+        <th scope="col">{{{__ "pnumber"}}}</th>
+        <th scope="col">{{{__ "desc"}}}</th>
+        <th scope="col">{{{__ "pimg"}}}</th>
+        <th scope="col">{{{__ "category"}}}</th>
+        <th scope="col">{{{__ "price"}}}</th>
+        <th scope="col">{{{__ "strat_date"}}}</th>
+        <th scope="col">{{{__ "end_date"}}}</th>
+        <th scope="col">{{{__ "status"}}}</th>
+        <th scope="col">{{{__ "act"}}}</th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     {{#each data}}
-    <tr>
-      <th scope="row">{{this.id}}</th>
-      <td>{{this.name}}</td>
-      <td>{{this.pnumber}}</td>
-      <td>{{this.description}}</td>
-      <td>
-        <img height="100" width="100" src="/images/{{this.image}}"/>
-      </td>
-      <td>{{this.categories_name}}</td>
-      <td>{{this.price}}</td>
-      <td>{{this.start_date}}</td>
-      <td>{{this.end_date}}</td>
-      <td>{{this.status}}</td>
-      <td>
-        <a class="btn btn-success" href="/products/pedit/{{this.id}}">{{{__ "edit"}}}</a><br> <br>
-        <a class="btn btn-primary" href="/products/delete/{{this.id}}">{{{__ "dlt"}}}</a><br> <br>
-      </td>
-    </tr>
-   {{/each}}
-  </tbody>
+        <tr>
+            <th scope="row">{{this.id}}</th>
+            <td>{{this.name}}</td>
+            <td>{{this.pnumber}}</td>
+            <td>{{this.description}}</td>
+            <td>
+                <img height="100" width="100" src="/images/{{this.image}}"/>
+            </td>
+            <td>{{this.categories_name}}</td>
+            <td>{{this.price}}</td>
+            <td>{{this.start_date}}</td>
+            <td>{{this.end_date}}</td>
+            <td>{{this.status}}</td>
+            <td>
+                <a class="btn btn-success" href="/products/pedit/{{this.id}}">{{{__ "edit"}}}</a><br> <br>
+                <a class="btn btn-primary" href="/products/delete/{{this.id}}">{{{__ "dlt"}}}</a><br> <br>
+            </td>
+        </tr>
+    {{/each}}
+    </tbody>
 </table>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-            <script src="assets/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-  <script src="assets/js/dataLoader.js"></script>
-  <script>
-  $(document).ready( function () {
-    $('#pro').DataTable()
- });
+<script src="assets/js/dataLoader.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#pro').DataTable()
+    });
 </script>
 </body>
 </html>

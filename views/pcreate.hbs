@@ -1,8 +1,10 @@
 <html>
 <head>
-      <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
-      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
-       
+    <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet"
+          type="text/css"/>
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
+
 </head>
 <h4>{{{__ "cproduct"}}}</h4>
 <a class="btn btn-primary" href="/products">{{{__ "allpro"}}}</a>
@@ -10,92 +12,92 @@
 <br>
 {{#if errors}}
     {{#each errors}}
-          <p class="alert alert-danger">{{this.msg}}</p>
+        <p class="alert alert-danger">{{this.msg}}</p>
     {{/each}}
 {{/if}}
 
-<form  action="/products/pcreate" method="POST" enctype="multipart/form-data">
-     <input type="hidden" name="_csrf" value="{{token}}">
-  <div class="form-group mb-2">
-    <label for="name">{{{__ "pname"}}}</label>
-    <input type="text" name="name" class="form-control" id="name">
-  </div>
-  <div class="form-group mb-2">
-    <label for="pnumber">{{{__ "pnumber"}}}</label>
-    <input type="text" name="pnumber" class="form-control" id="pnumber">
-  </div>
-  <div class="form-group mb-2">
-    <label for="description">{{{__ "desc"}}}</label>
-      {{!-- <input type="text" id="description" name="description"  class="form-control"> --}}
+<form action="/products/pcreate" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="_csrf" value="{{token}}">
+    <div class="form-group mb-2">
+        <label for="name">{{{__ "pname"}}}</label>
+        <input type="text" name="name" class="form-control" id="name">
+    </div>
+    <div class="form-group mb-2">
+        <label for="pnumber">{{{__ "pnumber"}}}</label>
+        <input type="text" name="pnumber" class="form-control" id="pnumber">
+    </div>
+    <div class="form-group mb-2">
+        <label for="description">{{{__ "desc"}}}</label>
+        {{!-- <input type="text" id="description" name="description"  class="form-control"> --}}
 
-     <textarea type="text" id="description" name="description" class="form-control"></textarea>
-      <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-     <script>
-       tinymce.init({
-       selector: "textarea#description",
-       skin: "bootstrap",
-       plugins: "lists, link, image, media",
-       toolbar:
-       "h1 h2 bold italic strikethrough blockquote bullist numlist backcolor | link image media | removeformat help",
-        menubar: false,
-  setup: (description) => {
-    // Apply the focus effect
-    description.on("init", () => {
-      description.getContainer().style.transition =
-        "border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out";
-    });
-    description.on("focus", () => {
-      (description.getContainer().style.boxShadow =
-        "0 0 0 .2rem rgba(0, 123, 255, .25)"),
-        (description.getContainer().style.borderColor = "#80bdff");
-    });
-   description.on("blur", () => {
-      (description.getContainer().style.boxShadow = ""),
-        (description.getContainer().style.borderColor = "");
-    });
-  },
-});
-     </script>
-  </div>
-   <div class="form-group mb-2">
-    <label for="image">{{{__ "pimg"}}}</label>
-    <input type="hidden" name="imgconvert" value="">
-    <input type="file" name="image" value="" class="form-control" id="image">
-  </div>
-  <div class="form-group mb-2">
-  <label for="category">{{{__ "category"}}}</label>
-      <select multiple name="category" id="category"  class="form-control">
-          {{#each category}}
-              <option value="{{id}}">{{name}}</option>
-          {{/each}}
-      </select>
-  </div>
-   <div class="form-group mb-2">
-    <label for="price">{{{__ "price"}}}</label>
-    <input type="text" name="price" class="form-control" onkeyup="calc(form)" onchange="calc(form)" id="price">
-      <script>
-          function calc(form) {
-              const num = form.price.value
-              const with2Decimals = num.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]
-              price.value = with2Decimals
-          }
-    </script>
-  </div>
-   <div class="form-group mb-2">
-    <label for="start_date">{{{__ "strat_date"}}}</label>
-    <input type="date" name="start_date" class="form-control" placeholder="dd-mm-yyyy" id="start_date">
-  </div>
-   <div class="form-group mb-2">
-    <label for="end_date">{{{__ "end_date"}}}</label>
-    <input type="date" name="end_date" class="form-control" placeholder="dd-mm-yyyy" id="end_date">
-  </div>
-  <div class="form-group mb-2">
-    <label for="">{{{__ "status"}}}</label><br>
-    <input type="radio" id="active" name="status" value="active">
-    <label for="active">Active</label><br>
-     <input type="radio" id="deactive" name="status" value="deactive">
-     <label for="deactive">DeActive</label>
- </div>
-     <button type="submit" class="btn btn-primary mb-2">{{{__ "cproduct"}}}</button>
+        <textarea type="text" id="description" name="description" class="form-control"></textarea>
+        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+        <script>
+            tinymce.init({
+                selector: "textarea#description",
+                skin: "bootstrap",
+                plugins: "lists, link, image, media",
+                toolbar:
+                        "h1 h2 bold italic strikethrough blockquote bullist numlist backcolor | link image media | removeformat help",
+                menubar: false,
+                setup: (description) => {
+                    // Apply the focus effect
+                    description.on("init", () => {
+                        description.getContainer().style.transition =
+                                "border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out";
+                    });
+                    description.on("focus", () => {
+                        (description.getContainer().style.boxShadow =
+                                "0 0 0 .2rem rgba(0, 123, 255, .25)"),
+                                (description.getContainer().style.borderColor = "#80bdff");
+                    });
+                    description.on("blur", () => {
+                        (description.getContainer().style.boxShadow = ""),
+                                (description.getContainer().style.borderColor = "");
+                    });
+                },
+            });
+        </script>
+    </div>
+    <div class="form-group mb-2">
+        <label for="image">{{{__ "pimg"}}}</label>
+        <input type="hidden" name="imgconvert" value="">
+        <input type="file" name="image" value="" class="form-control" id="image">
+    </div>
+    <div class="form-group mb-2">
+        <label for="category">{{{__ "category"}}}</label>
+        <select multiple name="category" id="category" class="form-control">
+            {{#each category}}
+                <option value="{{id}}">{{name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-group mb-2">
+        <label for="price">{{{__ "price"}}}</label>
+        <input type="text" name="price" class="form-control" onkeyup="calc(form)" onchange="calc(form)" id="price">
+        <script>
+            function calc(form) {
+                const num = form.price.value
+                const with2Decimals = num.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]
+                price.value = with2Decimals
+            }
+        </script>
+    </div>
+    <div class="form-group mb-2">
+        <label for="start_date">{{{__ "strat_date"}}}</label>
+        <input type="date" name="start_date" class="form-control" placeholder="dd-mm-yyyy" id="start_date">
+    </div>
+    <div class="form-group mb-2">
+        <label for="end_date">{{{__ "end_date"}}}</label>
+        <input type="date" name="end_date" class="form-control" placeholder="dd-mm-yyyy" id="end_date">
+    </div>
+    <div class="form-group mb-2">
+        <label for="">{{{__ "status"}}}</label><br>
+        <input type="radio" id="active" name="status" value="active">
+        <label for="active">Active</label><br>
+        <input type="radio" id="deactive" name="status" value="deactive">
+        <label for="deactive">DeActive</label>
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">{{{__ "cproduct"}}}</button>
 </form>
 </html>
